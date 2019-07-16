@@ -96,3 +96,8 @@ create table tblEmployee
 (EmployeeNumber int, 
  EmployeeName varchar(50));
 
+ select 1+1 as result
+ select 1/1 as result
+ select 1/0 as result
+ select 1/1 as result
+
