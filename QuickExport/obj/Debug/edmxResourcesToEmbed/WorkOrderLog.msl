@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WorkOrderLogModelStoreContainer" CdmEntityContainer="WorkOrderLogEntities">
+    <EntitySetMapping Name="ScriptActions">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.ScriptAction">
+        <MappingFragment StoreEntitySet="ScriptAction">
+          <ScalarProperty Name="SAUniqueID" ColumnName="SAUniqueID" />
+          <ScalarProperty Name="ScriptActionID" ColumnName="ScriptActionID" />
+          <ScalarProperty Name="ScriptActionName" ColumnName="ScriptActionName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkOrderDetails">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderDetail">
+        <MappingFragment StoreEntitySet="WorkOrderDetail">
+          <ScalarProperty Name="WODtlId" ColumnName="WODtlId" />
+          <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
+          <ScalarProperty Name="FDNo" ColumnName="FDNo" />
+          <ScalarProperty Name="FDDescription" ColumnName="FDDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkOrderHeaders">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderHeader">
+        <MappingFragment StoreEntitySet="WorkOrderHeader">
+          <ScalarProperty Name="WOUniqueID" ColumnName="WOUniqueID" />
+          <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
+          <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

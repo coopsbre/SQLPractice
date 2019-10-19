@@ -8,3 +8,6 @@ C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.Gener
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.CoreCompileInputs.cache
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.exe
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.pdb
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\EntityFramework.dll
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\EntityFramework.xml
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.CopyComplete
