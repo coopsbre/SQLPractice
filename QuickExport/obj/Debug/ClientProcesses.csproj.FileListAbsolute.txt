@@ -1,0 +1,10 @@
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\ClientProcesses.exe.config
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\ClientProcesses.exe
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\ClientProcesses.pdb
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csprojAssemblyReference.cache
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.Form1.resources
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.Properties.Resources.resources
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.GenerateResource.cache
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.CoreCompileInputs.cache
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.exe
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.pdb
