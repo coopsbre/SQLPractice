@@ -1,7 +1,7 @@
 USE [WorkOrderLog]
 GO
 
-/****** Object:  Table [dbo].[WorkOrderDetail]    Script Date: 10/20/2019 10:18:25 ******/
+/****** Object:  Table [dbo].[WorkOrderDetail]    Script Date: 10/20/2019 18:40:58 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,8 +11,8 @@ GO
 CREATE TABLE [dbo].[WorkOrderDetail](
 	[WODtlId] [int] IDENTITY(1,1) NOT NULL,
 	[WOHdrID] [int] NOT NULL,
-	[FDNo] [int] NOT NULL,
-	[FDDescription] [nvarchar](100) NOT NULL,
+	[ItemNumber] [int] NOT NULL,
+	[ActivityID] [int] NOT NULL,
  CONSTRAINT [PK_WorkOrderDetail] PRIMARY KEY CLUSTERED 
 (
 	[WODtlId] ASC
@@ -21,11 +21,17 @@ CREATE TABLE [dbo].[WorkOrderDetail](
 
 GO
 
+ALTER TABLE [dbo].[WorkOrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_WorkOrderDetail_Activity] FOREIGN KEY([ActivityID])
+REFERENCES [dbo].[Activity] ([ActivityID])
+GO
+
+ALTER TABLE [dbo].[WorkOrderDetail] CHECK CONSTRAINT [FK_WorkOrderDetail_Activity]
+GO
+
 ALTER TABLE [dbo].[WorkOrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_WorkOrderDetail_WorkOrderHeader] FOREIGN KEY([WOHdrID])
 REFERENCES [dbo].[WorkOrderHeader] ([WOHdrID])
 GO
 
 ALTER TABLE [dbo].[WorkOrderDetail] CHECK CONSTRAINT [FK_WorkOrderDetail_WorkOrderHeader]
 GO
-
 
