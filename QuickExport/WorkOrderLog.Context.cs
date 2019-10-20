@@ -25,8 +25,13 @@ namespace ClientProcesses
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<ScriptAction> ScriptActions { get; set; }
+        public DbSet<ScriptFile> ScriptFiles { get; set; }
         public DbSet<WorkOrderDetail> WorkOrderDetails { get; set; }
         public DbSet<WorkOrderHeader> WorkOrderHeaders { get; set; }
+        public DbSet<WorkOrderScriptHdr> WorkOrderScriptHdrs { get; set; }
+        public DbSet<ActivityType> ActivityTypes { get; set; }
     }
 }

@@ -11,3 +11,4 @@ C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.pdb
 C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\EntityFramework.dll
 C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\EntityFramework.xml
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.CopyComplete
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.AddClient.resources

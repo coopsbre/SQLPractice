@@ -27,6 +27,7 @@ namespace ClientProcesses
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
     
+        public virtual Client Client { get; set; }
         public virtual ICollection<WorkOrderDetail> WorkOrderDetails { get; set; }
     }
 }

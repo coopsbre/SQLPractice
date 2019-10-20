@@ -5,10 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="241d8cd4a8b34b6591f6f12cd88a570f" Name="Diagram1">
-        <EntityTypeShape EntityType="WorkOrderLogModel.ScriptAction" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderDetail" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderHeader" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.Activity" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.Client" Width="1.5" PointX="0.75" PointY="1.5" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.ScriptAction" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.ScriptFile" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderDetail" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderHeader" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderScriptHdr" Width="1.5" PointX="7.5" PointY="1.375" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_Activity" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderHeader_Client" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.ActivityType" Width="1.5" PointX="0.75" PointY="5.625" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_Activity_ActivityType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

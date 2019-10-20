@@ -31,17 +31,19 @@ namespace ClientProcesses
             p.ClientFolder = "C:\\TestClient";
             p.WorkOrderNumber = txtWONumber.Text;
 
-            List<Activity> la = new List<Activity>();
-            Activity a = new Activity();
-            a.ActivityNumber = 1;
+            List<BO_WorkOrderDetail> la = new List<BO_WorkOrderDetail>();
+            BO_WorkOrderDetail a = new BO_WorkOrderDetail();
+            a.ItemNumber = 1;
             a.ActivityName = txtFD1.Text;
-            a.ActivityType = ActivityType.Claim; 
+            a.enum_ActivityType = Enum_ActivityType.Transaction;
+          //  a.ActivityType = ActivityType.Claim; 
 
             la.Add(a);
-            a = new Activity();
-            a.ActivityNumber = 2;
+            a = new BO_WorkOrderDetail();
+            a.ItemNumber = 2;
             a.ActivityName = txtFD2.Text;
-            a.ActivityType = ActivityType.Transaction;
+            a.enum_ActivityType = Enum_ActivityType.Claim;
+            //a.ActivityType = ActivityType.Transaction;
 
             la.Add(a);
 

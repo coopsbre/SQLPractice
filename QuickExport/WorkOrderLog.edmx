@@ -4,7 +4,31 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WorkOrderLogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WorkOrderLogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityID" />
+          </Key>
+          <Property Name="ActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ActivityTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeID" />
+          </Key>
+          <Property Name="ActivityTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShortDescription" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LongDescription" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientCode" />
+          </Key>
+          <Property Name="UniqueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientCode" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="ClientFolder" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
         <EntityType Name="ScriptAction">
           <Key>
             <PropertyRef Name="ScriptActionID" />
@@ -13,14 +37,21 @@
           <Property Name="ScriptActionID" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="ScriptActionName" Type="nchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="ScriptFile">
+          <Key>
+            <PropertyRef Name="ScriptFileID" />
+          </Key>
+          <Property Name="ScriptFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScriptFileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="WorkOrderDetail">
           <Key>
             <PropertyRef Name="WODtlId" />
           </Key>
           <Property Name="WODtlId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WOHdrID" Type="int" Nullable="false" />
-          <Property Name="FDNo" Type="int" Nullable="false" />
-          <Property Name="FDDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ItemNumber" Type="int" Nullable="false" />
+          <Property Name="ActivityID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkOrderHeader">
           <Key>
@@ -28,12 +59,44 @@
           </Key>
           <Property Name="WOUniqueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WOHdrID" Type="int" Nullable="false" />
-          <Property Name="ClientCode" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="ClientCode" Type="nvarchar" MaxLength="4" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="WorkOrderScriptHdr">
+          <Key>
+            <PropertyRef Name="WOScriptHdrID" />
+          </Key>
+          <Property Name="WOScriptHdrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WODtlID" Type="int" Nullable="false" />
+          <Property Name="ScriptFileID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Activity_ActivityType">
+          <End Role="ActivityType" Type="Self.ActivityType" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActivityType">
+              <PropertyRef Name="ActivityTypeID" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="ActivityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderDetail_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
+          <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="WorkOrderDetail">
+              <PropertyRef Name="ActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkOrderDetail_WorkOrderHeader">
           <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="1" />
           <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="*" />
@@ -46,27 +109,148 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkOrderHeader_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientCode" />
+            </Principal>
+            <Dependent Role="WorkOrderHeader">
+              <PropertyRef Name="ClientCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
+          <End Role="ScriptFile" Type="Self.ScriptFile" Multiplicity="1" />
+          <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScriptFile">
+              <PropertyRef Name="ScriptFileID" />
+            </Principal>
+            <Dependent Role="WorkOrderScriptHdr">
+              <PropertyRef Name="ScriptFileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderScriptHdr_WorkOrderDetail">
+          <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="1" />
+          <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderDetail">
+              <PropertyRef Name="WODtlId" />
+            </Principal>
+            <Dependent Role="WorkOrderScriptHdr">
+              <PropertyRef Name="WODtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WorkOrderLogModelStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkOrderScriptHdr" EntityType="Self.WorkOrderScriptHdr" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
+            <End Role="ActivityType" EntitySet="ActivityType" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="Self.FK_WorkOrderDetail_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+          </AssociationSet>
           <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="Self.FK_WorkOrderDetail_WorkOrderHeader">
             <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
             <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderHeader_Client" Association="Self.FK_WorkOrderHeader_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="Self.FK_WorkOrderScriptHdr_ScriptFile">
+            <End Role="ScriptFile" EntitySet="ScriptFile" />
+            <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdr" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderScriptHdr_WorkOrderDetail" Association="Self.FK_WorkOrderScriptHdr_WorkOrderDetail">
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+            <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdr" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WorkOrderLogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WorkOrderLogEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Activities" EntityType="WorkOrderLogModel.Activity" />
+          <EntitySet Name="Clients" EntityType="WorkOrderLogModel.Client" />
+          <EntitySet Name="ScriptActions" EntityType="WorkOrderLogModel.ScriptAction" />
+          <EntitySet Name="ScriptFiles" EntityType="WorkOrderLogModel.ScriptFile" />
+          <EntitySet Name="WorkOrderDetails" EntityType="WorkOrderLogModel.WorkOrderDetail" />
+          <EntitySet Name="WorkOrderHeaders" EntityType="WorkOrderLogModel.WorkOrderHeader" />
+          <EntitySet Name="WorkOrderScriptHdrs" EntityType="WorkOrderLogModel.WorkOrderScriptHdr" />
+          <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="WorkOrderLogModel.FK_WorkOrderDetail_Activity">
+            <End Role="Activity" EntitySet="Activities" />
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderHeader_Client" Association="WorkOrderLogModel.FK_WorkOrderHeader_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile">
+            <End Role="ScriptFile" EntitySet="ScriptFiles" />
+            <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader">
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderScriptHdr_WorkOrderDetail" Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail">
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+            <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdrs" />
+          </AssociationSet>
+          <EntitySet Name="ActivityTypes" EntityType="WorkOrderLogModel.ActivityType" />
+          <AssociationSet Name="FK_Activity_ActivityType" Association="WorkOrderLogModel.FK_Activity_ActivityType">
+            <End Role="ActivityType" EntitySet="ActivityTypes" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityID" />
+          </Key>
+          <Property Name="ActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityDescription" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkOrderDetails" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="Activity" ToRole="WorkOrderDetail" />
+          <Property Name="ActivityTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ActivityType" Relationship="WorkOrderLogModel.FK_Activity_ActivityType" FromRole="Activity" ToRole="ActivityType" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientCode" />
+          </Key>
+          <Property Name="UniqueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="ClientFolder" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkOrderHeaders" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_Client" FromRole="Client" ToRole="WorkOrderHeader" />
+        </EntityType>
         <EntityType Name="ScriptAction">
           <Key>
             <PropertyRef Name="ScriptActionID" />
           </Key>
           <Property Name="SAUniqueID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ScriptActionID" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ScriptActionID" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="ScriptActionName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ScriptFile">
+          <Key>
+            <PropertyRef Name="ScriptFileID" />
+          </Key>
+          <Property Name="ScriptFileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScriptFileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkOrderScriptHdrs" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile" FromRole="ScriptFile" ToRole="WorkOrderScriptHdr" />
         </EntityType>
         <EntityType Name="WorkOrderDetail">
           <Key>
@@ -74,9 +258,11 @@
           </Key>
           <Property Name="WODtlId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WOHdrID" Type="Int32" Nullable="false" />
-          <Property Name="FDNo" Type="Int32" Nullable="false" />
-          <Property Name="FDDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="WorkOrderHeader" Relationship="Self.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
+          <Property Name="ItemNumber" Type="Int32" Nullable="false" />
+          <Property Name="ActivityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Activity" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="WorkOrderDetail" ToRole="Activity" />
+          <NavigationProperty Name="WorkOrderHeader" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
+          <NavigationProperty Name="WorkOrderScriptHdrs" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail" FromRole="WorkOrderDetail" ToRole="WorkOrderScriptHdr" />
         </EntityType>
         <EntityType Name="WorkOrderHeader">
           <Key>
@@ -84,16 +270,63 @@
           </Key>
           <Property Name="WOUniqueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WOHdrID" Type="Int32" Nullable="false" />
-          <Property Name="ClientCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClientCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="WorkOrderDetails" Relationship="Self.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderHeader" ToRole="WorkOrderDetail" />
+          <NavigationProperty Name="Client" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_Client" FromRole="WorkOrderHeader" ToRole="Client" />
+          <NavigationProperty Name="WorkOrderDetails" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderHeader" ToRole="WorkOrderDetail" />
         </EntityType>
+        <EntityType Name="WorkOrderScriptHdr">
+          <Key>
+            <PropertyRef Name="WOScriptHdrID" />
+          </Key>
+          <Property Name="WOScriptHdrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WODtlID" Type="Int32" Nullable="false" />
+          <Property Name="ScriptFileID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ScriptFile" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile" FromRole="WorkOrderScriptHdr" ToRole="ScriptFile" />
+          <NavigationProperty Name="WorkOrderDetail" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail" FromRole="WorkOrderScriptHdr" ToRole="WorkOrderDetail" />
+        </EntityType>
+        <Association Name="FK_WorkOrderDetail_Activity">
+          <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="WorkOrderDetail">
+              <PropertyRef Name="ActivityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderHeader_Client">
+          <End Type="WorkOrderLogModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientCode" />
+            </Principal>
+            <Dependent Role="WorkOrderHeader">
+              <PropertyRef Name="ClientCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
+          <End Type="WorkOrderLogModel.ScriptFile" Role="ScriptFile" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderScriptHdr" Role="WorkOrderScriptHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScriptFile">
+              <PropertyRef Name="ScriptFileID" />
+            </Principal>
+            <Dependent Role="WorkOrderScriptHdr">
+              <PropertyRef Name="ScriptFileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkOrderDetail_WorkOrderHeader">
-          <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="1" />
-          <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="*" />
+          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkOrderHeader">
               <PropertyRef Name="WOHdrID" />
@@ -103,50 +336,118 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WorkOrderLogEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ScriptActions" EntityType="Self.ScriptAction" />
-          <EntitySet Name="WorkOrderDetails" EntityType="Self.WorkOrderDetail" />
-          <EntitySet Name="WorkOrderHeaders" EntityType="Self.WorkOrderHeader" />
-          <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="Self.FK_WorkOrderDetail_WorkOrderHeader">
-            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
-            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <Association Name="FK_WorkOrderScriptHdr_WorkOrderDetail">
+          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderScriptHdr" Role="WorkOrderScriptHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderDetail">
+              <PropertyRef Name="WODtlId" />
+            </Principal>
+            <Dependent Role="WorkOrderScriptHdr">
+              <PropertyRef Name="WODtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ActivityType">
+          <Key>
+            <PropertyRef Name="ActivityTypeID" />
+          </Key>
+          <Property Name="ActivityTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShortDescription" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LongDescription" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activities" Relationship="WorkOrderLogModel.FK_Activity_ActivityType" FromRole="ActivityType" ToRole="Activity" />
+        </EntityType>
+        <Association Name="FK_Activity_ActivityType">
+          <End Type="WorkOrderLogModel.ActivityType" Role="ActivityType" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActivityType">
+              <PropertyRef Name="ActivityTypeID" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="ActivityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="WorkOrderLogModelStoreContainer" CdmEntityContainer="WorkOrderLogEntities">
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
+                <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ClientFolder" ColumnName="ClientFolder" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ScriptActions">
             <EntityTypeMapping TypeName="WorkOrderLogModel.ScriptAction">
               <MappingFragment StoreEntitySet="ScriptAction">
-                <ScalarProperty Name="SAUniqueID" ColumnName="SAUniqueID" />
-                <ScalarProperty Name="ScriptActionID" ColumnName="ScriptActionID" />
                 <ScalarProperty Name="ScriptActionName" ColumnName="ScriptActionName" />
+                <ScalarProperty Name="ScriptActionID" ColumnName="ScriptActionID" />
+                <ScalarProperty Name="SAUniqueID" ColumnName="SAUniqueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScriptFiles">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.ScriptFile">
+              <MappingFragment StoreEntitySet="ScriptFile">
+                <ScalarProperty Name="ScriptFileName" ColumnName="ScriptFileName" />
+                <ScalarProperty Name="ScriptFileID" ColumnName="ScriptFileID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WorkOrderDetails">
             <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderDetail">
               <MappingFragment StoreEntitySet="WorkOrderDetail">
-                <ScalarProperty Name="WODtlId" ColumnName="WODtlId" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+                <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
                 <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
-                <ScalarProperty Name="FDNo" ColumnName="FDNo" />
-                <ScalarProperty Name="FDDescription" ColumnName="FDDescription" />
+                <ScalarProperty Name="WODtlId" ColumnName="WODtlId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WorkOrderHeaders">
             <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderHeader">
               <MappingFragment StoreEntitySet="WorkOrderHeader">
-                <ScalarProperty Name="WOUniqueID" ColumnName="WOUniqueID" />
-                <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
-                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+                <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
+                <ScalarProperty Name="WOUniqueID" ColumnName="WOUniqueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkOrderScriptHdrs">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderScriptHdr">
+              <MappingFragment StoreEntitySet="WorkOrderScriptHdr">
+                <ScalarProperty Name="ScriptFileID" ColumnName="ScriptFileID" />
+                <ScalarProperty Name="WODtlID" ColumnName="WODtlID" />
+                <ScalarProperty Name="WOScriptHdrID" ColumnName="WOScriptHdrID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActivityTypes">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.ActivityType">
+              <MappingFragment StoreEntitySet="ActivityType">
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

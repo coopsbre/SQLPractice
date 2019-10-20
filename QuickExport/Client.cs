@@ -12,18 +12,17 @@ namespace ClientProcesses
     using System;
     using System.Collections.Generic;
     
-    public partial class Activity
+    public partial class Client
     {
-        public Activity()
+        public Client()
         {
-            this.WorkOrderDetails = new HashSet<WorkOrderDetail>();
+            this.WorkOrderHeaders = new HashSet<WorkOrderHeader>();
         }
     
-        public int ActivityID { get; set; }
-        public string ActivityDescription { get; set; }
-        public int ActivityTypeID { get; set; }
+        public int UniqueID { get; set; }
+        public string ClientCode { get; set; }
+        public string ClientFolder { get; set; }
     
-        public virtual ICollection<WorkOrderDetail> WorkOrderDetails { get; set; }
-        public virtual ActivityType ActivityType { get; set; }
+        public virtual ICollection<WorkOrderHeader> WorkOrderHeaders { get; set; }
     }
 }

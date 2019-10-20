@@ -14,11 +14,18 @@ namespace ClientProcesses
     
     public partial class WorkOrderDetail
     {
+        public WorkOrderDetail()
+        {
+            this.WorkOrderScriptHdrs = new HashSet<WorkOrderScriptHdr>();
+        }
+    
         public int WODtlId { get; set; }
         public int WOHdrID { get; set; }
-        public int FDNo { get; set; }
-        public string FDDescription { get; set; }
+        public int ItemNumber { get; set; }
+        public int ActivityID { get; set; }
     
+        public virtual Activity Activity { get; set; }
         public virtual WorkOrderHeader WorkOrderHeader { get; set; }
+        public virtual ICollection<WorkOrderScriptHdr> WorkOrderScriptHdrs { get; set; }
     }
 }

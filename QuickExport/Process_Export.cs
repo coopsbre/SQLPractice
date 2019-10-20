@@ -11,7 +11,7 @@ namespace ClientProcesses
     {
         public string ClientCode { get; set; }
         public string ActivityName { get; set; }
-        public List<Activity> ActivityList = new List<Activity>();
+        public List<BO_WorkOrderDetail> ActivityList = new List<BO_WorkOrderDetail>();
         public string WorkOrderNumber { get; set; }
         public string ClientFolder { get; set; }
         public string SourceFolder { get; set; }
@@ -50,17 +50,52 @@ namespace ClientProcesses
             }
 
             // Step 2: Loop through all the activities.
-            foreach (Activity a in ActivityList)
+            foreach (BO_WorkOrderDetail bo in ActivityList)
             {
+                using (var context = new WorkOrderLogEntities())
+                {
+                    Activity a = new Activity();
+                    var activity = context.Activities.Where(x => x.ActivityDescription == a.ActivityDescription).ToList();
+
+                    if (activity.Count() == 0)
+                    {
+                        a.ActivityDescription = bo.ActivityName;
+
+                        string activityTypeString = bo.enum_ActivityType.ToString();
+
+                        var activityTypeList = context.ActivityTypes.Where(x => x.ShortDescription == activityTypeString).ToList();
+
+                        if (activityTypeList.Count() > 0)
+                        {
+                            a.ActivityType = activityTypeList.First();
+                        }
+                        
+                        context.Activities.Add(a);
+                    }
+                    else
+                    {
+                        a = activity.First();
+                    }
+
+                    WorkOrderDetail wod = new WorkOrderDetail();
+                    wod.ActivityID = a.ActivityID;
+                    wod.ItemNumber = bo.ItemNumber;
+                    wod.WOHdrID = Convert.ToInt32(WorkOrderNumber);
+                    bo.workOrderDetail = wod;
+                    context.WorkOrderDetails.Add(wod);
+
+                    context.SaveChanges();
+                }
+
                 // Step 2 set up all names etc.
                 List<Process_File> listProcesses = new List<Process_File>();
 
-                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivitySPFileName(a.ActivityName) + ".sql", Identifier = "Activity SP" });
+                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivitySPFileName(bo.ActivityName) + ".sql", Identifier = "Activity SP" });
                 listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivityTableFileName() + ".sql", Identifier = "Activity Tables File" });
                 listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivityValidateFileName() + ".sql", Identifier = "Activity Validate File" });
-                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivityFileName(a.ActivityName) + ".sql", Identifier = "Activity File Name" });
-                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateSqlActionsFileName(a.ActivityName) + ".sql", Identifier = "Activity Sql Actions File" });
-                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateSourceFileName(a.ActivityName) + ".sql", Identifier = "Activity Source File" });
+                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateActivityFileName(bo.ActivityName) + ".sql", Identifier = "Activity File Name" });
+                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateSqlActionsFileName(bo.ActivityName) + ".sql", Identifier = "Activity Sql Actions File" });
+                listProcesses.Add(new Process_File(ClientFolder) { FileName = ClientFolder + "\\" + GenerateSourceFileName(bo.ActivityName) + ".sql", Identifier = "Activity Source File" });
 
                 // Step 3 Loop through all the filenames and start generating if required.
                 foreach (Process_File p in listProcesses)
@@ -75,6 +110,25 @@ namespace ClientProcesses
                         // Step 4 If Creating for the first time then copy from a source file. 
                         p.CopySourceFileToClientDirectory(ClientCode, p.FileName);
 
+                        //Insert into Script File.
+                        using (var context = new WorkOrderLogEntities())
+                        {
+                            ScriptFile sf = new ScriptFile();
+                            sf.ScriptFileName = Path.GetFileName(p.FileName);
+
+                            WorkOrderScriptHdr wosh = new WorkOrderScriptHdr();
+                            wosh.WODtlID = bo.workOrderDetail.WODtlId;
+                            //wosh.WorkOrderDetail = a.WorkOrderDetail;
+                            wosh.ScriptFile = sf;
+
+                            context.ScriptFiles.Add(sf);
+                            context.WorkOrderScriptHdrs.Add(wosh);
+
+                            context.SaveChanges();
+                        }
+
+                        //Once Created the script file need to insert into WorkOrderScriptHdr.
+
                     }
                     else
                     {
@@ -82,16 +136,7 @@ namespace ClientProcesses
                     }
                 }
 
-                using (var context = new WorkOrderLogEntities())
-                {
-                    WorkOrderDetail wod = new WorkOrderDetail();
-                    wod.FDDescription = a.ActivityName;
-                    wod.FDNo = a.ActivityNumber;
-                    wod.WOHdrID = Convert.ToInt32(WorkOrderNumber);
-                    context.WorkOrderDetails.Add(wod);
-
-                    context.SaveChanges();
-                }
+               
             }
             // Step 4 Need to write to the WorkOrderHeader table if not already. 
            
