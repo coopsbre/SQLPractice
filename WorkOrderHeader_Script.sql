@@ -1,7 +1,7 @@
 USE [WorkOrderLog]
 GO
 
-/****** Object:  Table [dbo].[WorkOrderHeader]    Script Date: 10/20/2019 18:41:09 ******/
+/****** Object:  Table [dbo].[WorkOrderHeader]    Script Date: 10/22/2019 20:22:03 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[WorkOrderHeader](
 	[ModifiedDate] [datetime] NULL,
 	[CreatedBy] [nvarchar](50) NULL,
 	[ModifiedBy] [nvarchar](50) NULL,
+	[TestPlanFileID] [int] NOT NULL,
  CONSTRAINT [PK_WorkOrderHeader] PRIMARY KEY CLUSTERED 
 (
 	[WOHdrID] ASC
@@ -29,6 +30,13 @@ REFERENCES [dbo].[Client] ([ClientCode])
 GO
 
 ALTER TABLE [dbo].[WorkOrderHeader] CHECK CONSTRAINT [FK_WorkOrderHeader_Client]
+GO
+
+ALTER TABLE [dbo].[WorkOrderHeader]  WITH CHECK ADD  CONSTRAINT [FK_WorkOrderHeader_TestPlanFile] FOREIGN KEY([TestPlanFileID])
+REFERENCES [dbo].[TestPlanFile] ([TestPlanFileID])
+GO
+
+ALTER TABLE [dbo].[WorkOrderHeader] CHECK CONSTRAINT [FK_WorkOrderHeader_TestPlanFile]
 GO
 
 ALTER TABLE [dbo].[WorkOrderHeader] ADD  CONSTRAINT [DF_WorkOrderHeader_CreatedDate]  DEFAULT (getdate()) FOR [CreatedDate]

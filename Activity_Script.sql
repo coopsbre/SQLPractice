@@ -1,7 +1,7 @@
 USE [WorkOrderLog]
 GO
 
-/****** Object:  Table [dbo].[Activity]    Script Date: 10/20/2019 18:35:51 ******/
+/****** Object:  Table [dbo].[Activity]    Script Date: 10/22/2019 20:20:51 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -26,3 +26,4 @@ GO
 
 ALTER TABLE [dbo].[Activity] CHECK CONSTRAINT [FK_Activity_ActivityType]
 GO
+

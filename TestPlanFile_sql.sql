@@ -1,0 +1,21 @@
+USE [WorkOrderLog]
+GO
+
+/****** Object:  Table [dbo].[TestPlanFile]    Script Date: 10/22/2019 20:22:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TestPlanFile](
+	[TestPlanFileID] [int] IDENTITY(1,1) NOT NULL,
+	[FileName] [nvarchar](200) NOT NULL,
+ CONSTRAINT [PK_TestPlanFile] PRIMARY KEY CLUSTERED 
+(
+	[TestPlanFileID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
