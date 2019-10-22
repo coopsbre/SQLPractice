@@ -73,5 +73,12 @@ namespace ClientProcesses
         {
             
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            PRC_Export_Update prcupdate = new PRC_Export_Update();
+            
+            prcupdate.RunProcess(this.txtClientCode.Text, txtWONumber.Text);
+        }
     }
 }

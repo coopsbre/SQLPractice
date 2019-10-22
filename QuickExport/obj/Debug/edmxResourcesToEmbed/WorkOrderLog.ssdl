@@ -39,6 +39,13 @@
     <Property Name="ScriptFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ScriptFileName" Type="nvarchar" MaxLength="200" Nullable="false" />
   </EntityType>
+  <EntityType Name="TestPlanFile">
+    <Key>
+      <PropertyRef Name="TestPlanFileID" />
+    </Key>
+    <Property Name="TestPlanFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
   <EntityType Name="WorkOrderDetail">
     <Key>
       <PropertyRef Name="WODtlId" />
@@ -59,6 +66,7 @@
     <Property Name="ModifiedDate" Type="datetime" />
     <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
     <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="TestPlanFileID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="WorkOrderScriptHdr">
     <Key>
@@ -116,6 +124,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_WorkOrderHeader_TestPlanFile">
+    <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
+    <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPlanFile">
+        <PropertyRef Name="TestPlanFileID" />
+      </Principal>
+      <Dependent Role="WorkOrderHeader">
+        <PropertyRef Name="TestPlanFileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
     <End Role="ScriptFile" Type="Self.ScriptFile" Multiplicity="1" />
     <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
@@ -146,6 +166,7 @@
     <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TestPlanFile" EntityType="Self.TestPlanFile" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderScriptHdr" EntityType="Self.WorkOrderScriptHdr" Schema="dbo" store:Type="Tables" />
@@ -163,6 +184,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_WorkOrderHeader_Client" Association="Self.FK_WorkOrderHeader_Client">
       <End Role="Client" EntitySet="Client" />
+      <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkOrderHeader_TestPlanFile" Association="Self.FK_WorkOrderHeader_TestPlanFile">
+      <End Role="TestPlanFile" EntitySet="TestPlanFile" />
       <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
     </AssociationSet>
     <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="Self.FK_WorkOrderScriptHdr_ScriptFile">

@@ -44,6 +44,13 @@
           <Property Name="ScriptFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ScriptFileName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="TestPlanFile">
+          <Key>
+            <PropertyRef Name="TestPlanFileID" />
+          </Key>
+          <Property Name="TestPlanFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="WorkOrderDetail">
           <Key>
             <PropertyRef Name="WODtlId" />
@@ -64,6 +71,7 @@
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="TestPlanFileID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkOrderScriptHdr">
           <Key>
@@ -121,6 +129,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkOrderHeader_TestPlanFile">
+          <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
+          <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
+            </Principal>
+            <Dependent Role="WorkOrderHeader">
+              <PropertyRef Name="TestPlanFileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
           <End Role="ScriptFile" Type="Self.ScriptFile" Multiplicity="1" />
           <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
@@ -151,6 +171,7 @@
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestPlanFile" EntityType="Self.TestPlanFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderScriptHdr" EntityType="Self.WorkOrderScriptHdr" Schema="dbo" store:Type="Tables" />
@@ -168,6 +189,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderHeader_Client" Association="Self.FK_WorkOrderHeader_Client">
             <End Role="Client" EntitySet="Client" />
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderHeader_TestPlanFile" Association="Self.FK_WorkOrderHeader_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFile" />
             <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="Self.FK_WorkOrderScriptHdr_ScriptFile">
@@ -189,23 +214,14 @@
           <EntitySet Name="ScriptActions" EntityType="WorkOrderLogModel.ScriptAction" />
           <EntitySet Name="ScriptFiles" EntityType="WorkOrderLogModel.ScriptFile" />
           <EntitySet Name="WorkOrderDetails" EntityType="WorkOrderLogModel.WorkOrderDetail" />
-          <EntitySet Name="WorkOrderHeaders" EntityType="WorkOrderLogModel.WorkOrderHeader" />
           <EntitySet Name="WorkOrderScriptHdrs" EntityType="WorkOrderLogModel.WorkOrderScriptHdr" />
           <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="WorkOrderLogModel.FK_WorkOrderDetail_Activity">
             <End Role="Activity" EntitySet="Activities" />
             <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_WorkOrderHeader_Client" Association="WorkOrderLogModel.FK_WorkOrderHeader_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
-          </AssociationSet>
           <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile">
             <End Role="ScriptFile" EntitySet="ScriptFiles" />
             <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdrs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader">
-            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
-            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderScriptHdr_WorkOrderDetail" Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail">
             <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
@@ -215,6 +231,20 @@
           <AssociationSet Name="FK_Activity_ActivityType" Association="WorkOrderLogModel.FK_Activity_ActivityType">
             <End Role="ActivityType" EntitySet="ActivityTypes" />
             <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <EntitySet Name="WorkOrderHeaders" EntityType="WorkOrderLogModel.WorkOrderHeader" />
+          <AssociationSet Name="FK_WorkOrderHeader_Client" Association="WorkOrderLogModel.FK_WorkOrderHeader_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader">
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+          </AssociationSet>
+          <EntitySet Name="TestPlanFiles" EntityType="WorkOrderLogModel.TestPlanFile" />
+          <AssociationSet Name="FK_WorkOrderHeader_TestPlanFile" Association="WorkOrderLogModel.FK_WorkOrderHeader_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFiles" />
+            <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Activity">
@@ -261,22 +291,8 @@
           <Property Name="ItemNumber" Type="Int32" Nullable="false" />
           <Property Name="ActivityID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Activity" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="WorkOrderDetail" ToRole="Activity" />
-          <NavigationProperty Name="WorkOrderHeader" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
           <NavigationProperty Name="WorkOrderScriptHdrs" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail" FromRole="WorkOrderDetail" ToRole="WorkOrderScriptHdr" />
-        </EntityType>
-        <EntityType Name="WorkOrderHeader">
-          <Key>
-            <PropertyRef Name="WOHdrID" />
-          </Key>
-          <Property Name="WOUniqueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WOHdrID" Type="Int32" Nullable="false" />
-          <Property Name="ClientCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_Client" FromRole="WorkOrderHeader" ToRole="Client" />
-          <NavigationProperty Name="WorkOrderDetails" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderHeader" ToRole="WorkOrderDetail" />
+          <NavigationProperty Name="WorkOrderHeader" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
         </EntityType>
         <EntityType Name="WorkOrderScriptHdr">
           <Key>
@@ -300,18 +316,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WorkOrderHeader_Client">
-          <End Type="WorkOrderLogModel.Client" Role="Client" Multiplicity="0..1" />
-          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="ClientCode" />
-            </Principal>
-            <Dependent Role="WorkOrderHeader">
-              <PropertyRef Name="ClientCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
           <End Type="WorkOrderLogModel.ScriptFile" Role="ScriptFile" Multiplicity="1" />
           <End Type="WorkOrderLogModel.WorkOrderScriptHdr" Role="WorkOrderScriptHdr" Multiplicity="*" />
@@ -321,18 +325,6 @@
             </Principal>
             <Dependent Role="WorkOrderScriptHdr">
               <PropertyRef Name="ScriptFileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WorkOrderDetail_WorkOrderHeader">
-          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="1" />
-          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkOrderHeader">
-              <PropertyRef Name="WOHdrID" />
-            </Principal>
-            <Dependent Role="WorkOrderDetail">
-              <PropertyRef Name="WOHdrID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -366,6 +358,66 @@
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="ActivityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkOrderHeader">
+          <Key>
+            <PropertyRef Name="WOHdrID" />
+          </Key>
+          <Property Name="WOUniqueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WOHdrID" Type="Int32" Nullable="false" />
+          <Property Name="ClientCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_Client" FromRole="WorkOrderHeader" ToRole="Client" />
+          <NavigationProperty Name="WorkOrderDetails" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderHeader" ToRole="WorkOrderDetail" />
+          <Property Name="TestPlanFileID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestPlanFile" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_TestPlanFile" FromRole="WorkOrderHeader" ToRole="TestPlanFile" />
+        </EntityType>
+        <Association Name="FK_WorkOrderHeader_Client">
+          <End Type="WorkOrderLogModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientCode" />
+            </Principal>
+            <Dependent Role="WorkOrderHeader">
+              <PropertyRef Name="ClientCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderDetail_WorkOrderHeader">
+          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderHeader">
+              <PropertyRef Name="WOHdrID" />
+            </Principal>
+            <Dependent Role="WorkOrderDetail">
+              <PropertyRef Name="WOHdrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TestPlanFile">
+          <Key>
+            <PropertyRef Name="TestPlanFileID" />
+          </Key>
+          <Property Name="TestPlanFileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkOrderHeaders" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_TestPlanFile" FromRole="TestPlanFile" ToRole="WorkOrderHeader" />
+        </EntityType>
+        <Association Name="FK_WorkOrderHeader_TestPlanFile">
+          <End Type="WorkOrderLogModel.TestPlanFile" Role="TestPlanFile" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderHeader" Role="WorkOrderHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
+            </Principal>
+            <Dependent Role="WorkOrderHeader">
+              <PropertyRef Name="TestPlanFileID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -420,19 +472,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WorkOrderHeaders">
-            <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderHeader">
-              <MappingFragment StoreEntitySet="WorkOrderHeader">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
-                <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
-                <ScalarProperty Name="WOUniqueID" ColumnName="WOUniqueID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="WorkOrderScriptHdrs">
             <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderScriptHdr">
               <MappingFragment StoreEntitySet="WorkOrderScriptHdr">
@@ -448,6 +487,28 @@
                 <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
                 <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
                 <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkOrderHeaders">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderHeader">
+              <MappingFragment StoreEntitySet="WorkOrderHeader">
+                <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+                <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
+                <ScalarProperty Name="WOUniqueID" ColumnName="WOUniqueID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestPlanFiles">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.TestPlanFile">
+              <MappingFragment StoreEntitySet="TestPlanFile">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -25,9 +25,7 @@ namespace ClientProcesses
         public string DatabaseOwner = "dbo.";
         public string FilePostFix = ".sql";
         public string UnderScore = "_";
-
-       
-
+        
         public DataValidatorReturn HandleExportFileCreation()
         {
             // Step 1: Check if folder exists and if doesn't create it.
@@ -38,16 +36,8 @@ namespace ClientProcesses
                 CreateDirectory();
             }
 
-            using (var context = new WorkOrderLogEntities())
-            {
-                WorkOrderHeader woh = new WorkOrderHeader();
-                woh.ClientCode = ClientCode;
-                woh.WOHdrID = Convert.ToInt32(WorkOrderNumber);
-                woh.CreatedDate = System.DateTime.Now;
-                context.WorkOrderHeaders.Add(woh);
-
-                context.SaveChanges();
-            }
+            BO_WorkOrderHeader bo_WH = new BO_WorkOrderHeader();
+            bo_WH.Create(ClientCode, WorkOrderNumber);
 
             // Step 2: Loop through all the activities.
             foreach (BO_WorkOrderDetail bo in ActivityList)

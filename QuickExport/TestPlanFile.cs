@@ -12,20 +12,16 @@ namespace ClientProcesses
     using System;
     using System.Collections.Generic;
     
-    public partial class WorkOrderDetail
+    public partial class TestPlanFile
     {
-        public WorkOrderDetail()
+        public TestPlanFile()
         {
-            this.WorkOrderScriptHdrs = new HashSet<WorkOrderScriptHdr>();
+            this.WorkOrderHeaders = new HashSet<WorkOrderHeader>();
         }
     
-        public int WODtlId { get; set; }
-        public int WOHdrID { get; set; }
-        public int ItemNumber { get; set; }
-        public int ActivityID { get; set; }
+        public int TestPlanFileID { get; set; }
+        public string FileName { get; set; }
     
-        public virtual Activity Activity { get; set; }
-        public virtual ICollection<WorkOrderScriptHdr> WorkOrderScriptHdrs { get; set; }
-        public virtual WorkOrderHeader WorkOrderHeader { get; set; }
+        public virtual ICollection<WorkOrderHeader> WorkOrderHeaders { get; set; }
     }
 }

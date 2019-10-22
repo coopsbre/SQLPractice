@@ -26,8 +26,10 @@ namespace ClientProcesses
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
+        public int TestPlanFileID { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual ICollection<WorkOrderDetail> WorkOrderDetails { get; set; }
+        public virtual TestPlanFile TestPlanFile { get; set; }
     }
 }
