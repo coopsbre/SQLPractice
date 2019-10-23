@@ -1,4 +1,6 @@
-﻿namespace ClientProcesses
+﻿using System.Collections.Generic;
+
+namespace ClientProcesses
 {
     public class _ClientProcess
     {
@@ -7,16 +9,10 @@
 
         DataValidatorReturn DVR = new DataValidatorReturn(); 
 
-        public virtual DataValidatorReturn RunProcess(string clientCode, string workOrderNumber)
+        public virtual DataValidatorReturn RunProcess(List<BO_FunctionalDescription> functionalDescription,string clientCode, string workOrderNumber)
         {
-            // For every process we will create a work order entry.
-            
-
-            // For every process create a Test Plan In the Format "Test Plan - Work Order Number"
-            
+            BO_WOH.FunctionDescriptionList = functionalDescription;
             return BO_WOH.Create(clientCode, workOrderNumber);
-
-
         }
     }
 }

@@ -8,9 +8,9 @@ namespace ClientProcesses
 {
     public class PRC_Export_New : _ClientProcess
     {
-        public override DataValidatorReturn RunProcess(string clientCode, string workOrderNumber)
+        public override DataValidatorReturn RunProcess(List<BO_FunctionalDescription> functionalDescriptionList, string clientCode, string workOrderNumber)
         {
-            return base.RunProcess(clientCode, workOrderNumber);
+            return base.RunProcess(functionalDescriptionList, clientCode, workOrderNumber);
         }
     }
     

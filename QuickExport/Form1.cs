@@ -77,8 +77,21 @@ namespace ClientProcesses
         private void button4_Click(object sender, EventArgs e)
         {
             PRC_Export_Update prcupdate = new PRC_Export_Update();
+
+
+            List<BO_FunctionalDescription> la = new List<BO_FunctionalDescription>();
+            BO_FunctionalDescription a = new BO_FunctionalDescription();
+            a.FDNumber = 1;
+            a.Description = txtFD1.Text;
             
-            prcupdate.RunProcess(this.txtClientCode.Text, txtWONumber.Text);
+            la.Add(a);
+            a = new BO_FunctionalDescription();
+            a.FDNumber = 2;
+            a.Description = txtFD2.Text;
+            
+            la.Add(a);
+
+            prcupdate.RunProcess(la,this.txtClientCode.Text, txtWONumber.Text);
         }
     }
 }

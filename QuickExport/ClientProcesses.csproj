@@ -64,6 +64,7 @@
     <Compile Include="AddClient.Designer.cs">
       <DependentUpon>AddClient.cs</DependentUpon>
     </Compile>
+    <Compile Include="BO_FunctionalDescription.cs" />
     <Compile Include="BO_TestPlan.cs" />
     <Compile Include="BO_WorkOrderDetail.cs" />
     <Compile Include="BO_WorkOrderHeader.cs" />
