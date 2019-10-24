@@ -1,7 +1,7 @@
 USE [WorkOrderLog]
 GO
 
-/****** Object:  Table [dbo].[ScriptAction]    Script Date: 10/22/2019 20:21:28 ******/
+/****** Object:  Table [dbo].[ScriptAction]    Script Date: 10/24/2019 20:45:48 ******/
 SET ANSI_NULLS ON
 GO
 

@@ -1,7 +1,7 @@
 USE [WorkOrderLog]
 GO
 
-/****** Object:  Table [dbo].[Activity]    Script Date: 10/22/2019 20:20:51 ******/
+/****** Object:  Table [dbo].[Activity]    Script Date: 10/24/2019 20:45:16 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[Activity](
 	[ActivityID] [int] IDENTITY(1,1) NOT NULL,
 	[ActivityDescription] [nvarchar](100) NOT NULL,
 	[ActivityTypeID] [int] NOT NULL,
+	[TestPlanDtlID] [int] NOT NULL,
  CONSTRAINT [PK_Activity] PRIMARY KEY CLUSTERED 
 (
 	[ActivityID] ASC
@@ -20,8 +21,8 @@ CREATE TABLE [dbo].[Activity](
 
 GO
 
-ALTER TABLE [dbo].[Activity]  WITH CHECK ADD  CONSTRAINT [FK_Activity_ActivityType] FOREIGN KEY([ActivityTypeID])
-REFERENCES [dbo].[ActivityType] ([ActivityTypeID])
+ALTER TABLE [dbo].[Activity]  WITH CHECK ADD  CONSTRAINT [FK_Activity_ActivityType] FOREIGN KEY([TestPlanDtlID])
+REFERENCES [dbo].[TestPlanDtl] ([TestPlanDtlID])
 GO
 
 ALTER TABLE [dbo].[Activity] CHECK CONSTRAINT [FK_Activity_ActivityType]

@@ -7,6 +7,7 @@
     <Property Name="ActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ActivityDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="ActivityTypeID" Type="int" Nullable="false" />
+    <Property Name="TestPlanDtlID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ActivityType">
     <Key>
@@ -38,6 +39,15 @@
     </Key>
     <Property Name="ScriptFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ScriptFileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TestPlanDtl">
+    <Key>
+      <PropertyRef Name="TestPlanDtlID" />
+    </Key>
+    <Property Name="TestPlanDtlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TestPlanFileID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="150" />
+    <Property Name="LongDescription" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="TestPlanFile">
     <Key>
@@ -75,16 +85,29 @@
     <Property Name="WOScriptHdrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="WODtlID" Type="int" Nullable="false" />
     <Property Name="ScriptFileID" Type="int" Nullable="false" />
+    <Property Name="TestPlanFileID" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Activity_ActivityType">
-    <End Role="ActivityType" Type="Self.ActivityType" Multiplicity="1" />
+    <End Role="TestPlanDtl" Type="Self.TestPlanDtl" Multiplicity="1" />
     <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ActivityType">
-        <PropertyRef Name="ActivityTypeID" />
+      <Principal Role="TestPlanDtl">
+        <PropertyRef Name="TestPlanDtlID" />
       </Principal>
       <Dependent Role="Activity">
-        <PropertyRef Name="ActivityTypeID" />
+        <PropertyRef Name="TestPlanDtlID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TestPlanDtl_TestPlanFile">
+    <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
+    <End Role="TestPlanDtl" Type="Self.TestPlanDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPlanFile">
+        <PropertyRef Name="TestPlanFileID" />
+      </Principal>
+      <Dependent Role="TestPlanDtl">
+        <PropertyRef Name="TestPlanFileID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -136,15 +159,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
-    <End Role="ScriptFile" Type="Self.ScriptFile" Multiplicity="1" />
+  <Association Name="FK_WorkOrderScriptHdr_TestPlanFile">
+    <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
     <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="ScriptFile">
-        <PropertyRef Name="ScriptFileID" />
+      <Principal Role="TestPlanFile">
+        <PropertyRef Name="TestPlanFileID" />
       </Principal>
       <Dependent Role="WorkOrderScriptHdr">
-        <PropertyRef Name="ScriptFileID" />
+        <PropertyRef Name="TestPlanFileID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -166,13 +189,18 @@
     <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TestPlanDtl" EntityType="Self.TestPlanDtl" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TestPlanFile" EntityType="Self.TestPlanFile" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkOrderScriptHdr" EntityType="Self.WorkOrderScriptHdr" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
-      <End Role="ActivityType" EntitySet="ActivityType" />
+      <End Role="TestPlanDtl" EntitySet="TestPlanDtl" />
       <End Role="Activity" EntitySet="Activity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TestPlanDtl_TestPlanFile" Association="Self.FK_TestPlanDtl_TestPlanFile">
+      <End Role="TestPlanFile" EntitySet="TestPlanFile" />
+      <End Role="TestPlanDtl" EntitySet="TestPlanDtl" />
     </AssociationSet>
     <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="Self.FK_WorkOrderDetail_Activity">
       <End Role="Activity" EntitySet="Activity" />
@@ -190,8 +218,8 @@
       <End Role="TestPlanFile" EntitySet="TestPlanFile" />
       <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
     </AssociationSet>
-    <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="Self.FK_WorkOrderScriptHdr_ScriptFile">
-      <End Role="ScriptFile" EntitySet="ScriptFile" />
+    <AssociationSet Name="FK_WorkOrderScriptHdr_TestPlanFile" Association="Self.FK_WorkOrderScriptHdr_TestPlanFile">
+      <End Role="TestPlanFile" EntitySet="TestPlanFile" />
       <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdr" />
     </AssociationSet>
     <AssociationSet Name="FK_WorkOrderScriptHdr_WorkOrderDetail" Association="Self.FK_WorkOrderScriptHdr_WorkOrderDetail">

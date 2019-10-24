@@ -22,8 +22,10 @@ namespace ClientProcesses
         public int ActivityID { get; set; }
         public string ActivityDescription { get; set; }
         public int ActivityTypeID { get; set; }
+        public int TestPlanDtlID { get; set; }
     
         public virtual ICollection<WorkOrderDetail> WorkOrderDetails { get; set; }
         public virtual ActivityType ActivityType { get; set; }
+        public virtual TestPlanDtl TestPlanDtl { get; set; }
     }
 }

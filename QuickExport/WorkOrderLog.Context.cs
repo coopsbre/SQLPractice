@@ -34,5 +34,6 @@ namespace ClientProcesses
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<WorkOrderHeader> WorkOrderHeaders { get; set; }
         public DbSet<TestPlanFile> TestPlanFiles { get; set; }
+        public DbSet<TestPlanDtl> TestPlanDtls { get; set; }
     }
 }

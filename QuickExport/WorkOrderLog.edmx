@@ -12,6 +12,7 @@
           <Property Name="ActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ActivityDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="ActivityTypeID" Type="int" Nullable="false" />
+          <Property Name="TestPlanDtlID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ActivityType">
           <Key>
@@ -43,6 +44,15 @@
           </Key>
           <Property Name="ScriptFileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ScriptFileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestPlanDtl">
+          <Key>
+            <PropertyRef Name="TestPlanDtlID" />
+          </Key>
+          <Property Name="TestPlanDtlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TestPlanFileID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+          <Property Name="LongDescription" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="TestPlanFile">
           <Key>
@@ -80,16 +90,29 @@
           <Property Name="WOScriptHdrID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WODtlID" Type="int" Nullable="false" />
           <Property Name="ScriptFileID" Type="int" Nullable="false" />
+          <Property Name="TestPlanFileID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Activity_ActivityType">
-          <End Role="ActivityType" Type="Self.ActivityType" Multiplicity="1" />
+          <End Role="TestPlanDtl" Type="Self.TestPlanDtl" Multiplicity="1" />
           <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ActivityType">
-              <PropertyRef Name="ActivityTypeID" />
+            <Principal Role="TestPlanDtl">
+              <PropertyRef Name="TestPlanDtlID" />
             </Principal>
             <Dependent Role="Activity">
-              <PropertyRef Name="ActivityTypeID" />
+              <PropertyRef Name="TestPlanDtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestPlanDtl_TestPlanFile">
+          <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
+          <End Role="TestPlanDtl" Type="Self.TestPlanDtl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
+            </Principal>
+            <Dependent Role="TestPlanDtl">
+              <PropertyRef Name="TestPlanFileID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -141,15 +164,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WorkOrderScriptHdr_ScriptFile">
-          <End Role="ScriptFile" Type="Self.ScriptFile" Multiplicity="1" />
+        <Association Name="FK_WorkOrderScriptHdr_TestPlanFile">
+          <End Role="TestPlanFile" Type="Self.TestPlanFile" Multiplicity="1" />
           <End Role="WorkOrderScriptHdr" Type="Self.WorkOrderScriptHdr" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ScriptFile">
-              <PropertyRef Name="ScriptFileID" />
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
             </Principal>
             <Dependent Role="WorkOrderScriptHdr">
-              <PropertyRef Name="ScriptFileID" />
+              <PropertyRef Name="TestPlanFileID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -171,13 +194,18 @@
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestPlanDtl" EntityType="Self.TestPlanDtl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestPlanFile" EntityType="Self.TestPlanFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderScriptHdr" EntityType="Self.WorkOrderScriptHdr" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
-            <End Role="ActivityType" EntitySet="ActivityType" />
+            <End Role="TestPlanDtl" EntitySet="TestPlanDtl" />
             <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestPlanDtl_TestPlanFile" Association="Self.FK_TestPlanDtl_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFile" />
+            <End Role="TestPlanDtl" EntitySet="TestPlanDtl" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="Self.FK_WorkOrderDetail_Activity">
             <End Role="Activity" EntitySet="Activity" />
@@ -195,8 +223,8 @@
             <End Role="TestPlanFile" EntitySet="TestPlanFile" />
             <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
           </AssociationSet>
-          <AssociationSet Name="FK_WorkOrderScriptHdr_ScriptFile" Association="Self.FK_WorkOrderScriptHdr_ScriptFile">
-            <End Role="ScriptFile" EntitySet="ScriptFile" />
+          <AssociationSet Name="FK_WorkOrderScriptHdr_TestPlanFile" Association="Self.FK_WorkOrderScriptHdr_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFile" />
             <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdr" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderScriptHdr_WorkOrderDetail" Association="Self.FK_WorkOrderScriptHdr_WorkOrderDetail">
@@ -246,6 +274,19 @@
             <End Role="TestPlanFile" EntitySet="TestPlanFiles" />
             <End Role="WorkOrderHeader" EntitySet="WorkOrderHeaders" />
           </AssociationSet>
+          <EntitySet Name="TestPlanDtls" EntityType="WorkOrderLogModel.TestPlanDtl" />
+          <AssociationSet Name="FK_Activity_ActivityType1" Association="WorkOrderLogModel.FK_Activity_ActivityType1">
+            <End Role="TestPlanDtl" EntitySet="TestPlanDtls" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestPlanDtl_TestPlanFile" Association="WorkOrderLogModel.FK_TestPlanDtl_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFiles" />
+            <End Role="TestPlanDtl" EntitySet="TestPlanDtls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderScriptHdr_TestPlanFile" Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_TestPlanFile">
+            <End Role="TestPlanFile" EntitySet="TestPlanFiles" />
+            <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdrs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Activity">
           <Key>
@@ -256,6 +297,8 @@
           <NavigationProperty Name="WorkOrderDetails" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="Activity" ToRole="WorkOrderDetail" />
           <Property Name="ActivityTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ActivityType" Relationship="WorkOrderLogModel.FK_Activity_ActivityType" FromRole="Activity" ToRole="ActivityType" />
+          <Property Name="TestPlanDtlID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestPlanDtl" Relationship="WorkOrderLogModel.FK_Activity_ActivityType1" FromRole="Activity" ToRole="TestPlanDtl" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -303,6 +346,8 @@
           <Property Name="ScriptFileID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ScriptFile" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_ScriptFile" FromRole="WorkOrderScriptHdr" ToRole="ScriptFile" />
           <NavigationProperty Name="WorkOrderDetail" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_WorkOrderDetail" FromRole="WorkOrderScriptHdr" ToRole="WorkOrderDetail" />
+          <Property Name="TestPlanFileID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TestPlanFile" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_TestPlanFile" FromRole="WorkOrderScriptHdr" ToRole="TestPlanFile" />
         </EntityType>
         <Association Name="FK_WorkOrderDetail_Activity">
           <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="1" />
@@ -408,6 +453,8 @@
           <Property Name="TestPlanFileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="WorkOrderHeaders" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_TestPlanFile" FromRole="TestPlanFile" ToRole="WorkOrderHeader" />
+          <NavigationProperty Name="TestPlanDtls" Relationship="WorkOrderLogModel.FK_TestPlanDtl_TestPlanFile" FromRole="TestPlanFile" ToRole="TestPlanDtl" />
+          <NavigationProperty Name="WorkOrderScriptHdrs" Relationship="WorkOrderLogModel.FK_WorkOrderScriptHdr_TestPlanFile" FromRole="TestPlanFile" ToRole="WorkOrderScriptHdr" />
         </EntityType>
         <Association Name="FK_WorkOrderHeader_TestPlanFile">
           <End Type="WorkOrderLogModel.TestPlanFile" Role="TestPlanFile" Multiplicity="1" />
@@ -421,6 +468,53 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TestPlanDtl">
+          <Key>
+            <PropertyRef Name="TestPlanDtlID" />
+          </Key>
+          <Property Name="TestPlanDtlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestPlanFileID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LongDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activities" Relationship="WorkOrderLogModel.FK_Activity_ActivityType1" FromRole="TestPlanDtl" ToRole="Activity" />
+          <NavigationProperty Name="TestPlanFile" Relationship="WorkOrderLogModel.FK_TestPlanDtl_TestPlanFile" FromRole="TestPlanDtl" ToRole="TestPlanFile" />
+        </EntityType>
+        <Association Name="FK_Activity_ActivityType1">
+          <End Type="WorkOrderLogModel.TestPlanDtl" Role="TestPlanDtl" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanDtl">
+              <PropertyRef Name="TestPlanDtlID" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="TestPlanDtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestPlanDtl_TestPlanFile">
+          <End Type="WorkOrderLogModel.TestPlanFile" Role="TestPlanFile" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.TestPlanDtl" Role="TestPlanDtl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
+            </Principal>
+            <Dependent Role="TestPlanDtl">
+              <PropertyRef Name="TestPlanFileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrderScriptHdr_TestPlanFile">
+          <End Type="WorkOrderLogModel.TestPlanFile" Role="TestPlanFile" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderScriptHdr" Role="WorkOrderScriptHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPlanFile">
+              <PropertyRef Name="TestPlanFileID" />
+            </Principal>
+            <Dependent Role="WorkOrderScriptHdr">
+              <PropertyRef Name="TestPlanFileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -430,6 +524,7 @@
           <EntitySetMapping Name="Activities">
             <EntityTypeMapping TypeName="WorkOrderLogModel.Activity">
               <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="TestPlanDtlID" ColumnName="TestPlanDtlID" />
                 <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
                 <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
@@ -475,6 +570,7 @@
           <EntitySetMapping Name="WorkOrderScriptHdrs">
             <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderScriptHdr">
               <MappingFragment StoreEntitySet="WorkOrderScriptHdr">
+                <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
                 <ScalarProperty Name="ScriptFileID" ColumnName="ScriptFileID" />
                 <ScalarProperty Name="WODtlID" ColumnName="WODtlID" />
                 <ScalarProperty Name="WOScriptHdrID" ColumnName="WOScriptHdrID" />
@@ -509,6 +605,16 @@
               <MappingFragment StoreEntitySet="TestPlanFile">
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestPlanDtls">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.TestPlanDtl">
+              <MappingFragment StoreEntitySet="TestPlanDtl">
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
+                <ScalarProperty Name="TestPlanDtlID" ColumnName="TestPlanDtlID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

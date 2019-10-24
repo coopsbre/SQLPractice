@@ -17,11 +17,15 @@ namespace ClientProcesses
         public TestPlanFile()
         {
             this.WorkOrderHeaders = new HashSet<WorkOrderHeader>();
+            this.TestPlanDtls = new HashSet<TestPlanDtl>();
+            this.WorkOrderScriptHdrs = new HashSet<WorkOrderScriptHdr>();
         }
     
         public int TestPlanFileID { get; set; }
         public string FileName { get; set; }
     
         public virtual ICollection<WorkOrderHeader> WorkOrderHeaders { get; set; }
+        public virtual ICollection<TestPlanDtl> TestPlanDtls { get; set; }
+        public virtual ICollection<WorkOrderScriptHdr> WorkOrderScriptHdrs { get; set; }
     }
 }

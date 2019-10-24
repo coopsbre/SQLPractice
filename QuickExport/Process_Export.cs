@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientProcesses
 {
@@ -25,7 +23,7 @@ namespace ClientProcesses
         public string DatabaseOwner = "dbo.";
         public string FilePostFix = ".sql";
         public string UnderScore = "_";
-        
+
         public DataValidatorReturn HandleExportFileCreation()
         {
             // Step 1: Check if folder exists and if doesn't create it.
@@ -59,7 +57,7 @@ namespace ClientProcesses
                         {
                             a.ActivityType = activityTypeList.First();
                         }
-                        
+
                         context.Activities.Add(a);
                     }
                     else
@@ -126,32 +124,32 @@ namespace ClientProcesses
                     }
                 }
 
-               
+
             }
             // Step 4 Need to write to the WorkOrderHeader table if not already. 
-           
+
 
             dvr.ReturnType = ActivityList;
-            
+
             return dvr;
         }
 
         public string GenerateActivitySPFileName(string activityName)
         {
-            return DatabaseOwner + ClientCode + activityName.Replace(" ","");
+            return DatabaseOwner + ClientCode + activityName.Replace(" ", "");
         }
 
         public string GenerateActivityTableFileName()
         {
             //Generate the file Name.
             return File_CreateTable_Name = ClientCode + UnderScore + "07" + UnderScore + "Tables";
-            
+
         }
 
         public string GenerateActivityValidateFileName()
         {
             //Generate the File Name.
-            return DatabaseOwner + ClientCode + "ExportValidate"; 
+            return DatabaseOwner + ClientCode + "ExportValidate";
         }
 
         public string GenerateActivityFileName(string activityName)
@@ -169,7 +167,7 @@ namespace ClientProcesses
             File_SqlActions_Name = File_SqlActions_Name.Replace(" ", UnderScore);
             //Generate the File Name.
             return File_SqlActions_Name;
-           
+
         }
 
         public string GenerateSourceFileName(string activityName)
@@ -195,7 +193,7 @@ namespace ClientProcesses
 
         public DataValidatorReturn CreateDirectory()
         {
-            DataValidatorReturn dvr = new DataValidatorReturn(); 
+            DataValidatorReturn dvr = new DataValidatorReturn();
 
             try
             {
@@ -227,11 +225,11 @@ namespace ClientProcesses
 
         public DataValidatorReturn CreateFile(string fileName)
         {
-            string fullFileName = string.Empty; 
+            string fullFileName = string.Empty;
 
             DataValidatorReturn dvr = new DataValidatorReturn();
 
-            fullFileName = ClientFolder + "\\" + fileName + FilePostFix; 
+            fullFileName = ClientFolder + "\\" + fileName + FilePostFix;
 
             if (File.Exists(fullFileName))
             {

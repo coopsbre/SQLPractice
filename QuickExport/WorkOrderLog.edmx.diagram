@@ -21,6 +21,10 @@
         <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" />
         <EntityTypeShape EntityType="WorkOrderLogModel.TestPlanFile" Width="1.5" PointX="7.375" PointY="7.875" />
         <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderHeader_TestPlanFile" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.TestPlanDtl" Width="1.5" PointX="9.625" PointY="7.75" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_Activity_ActivityType1" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_TestPlanDtl_TestPlanFile" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_TestPlanFile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

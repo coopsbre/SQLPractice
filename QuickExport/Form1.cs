@@ -66,7 +66,7 @@ namespace ClientProcesses
                 
             //}
 
-            this.txtResults.Text = resultText;
+            //this.txtResults.Text = resultText;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -92,6 +92,48 @@ namespace ClientProcesses
             la.Add(a);
 
             prcupdate.RunProcess(la,this.txtClientCode.Text, txtWONumber.Text);
+        }
+
+        private void txtWONumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+        }
+
+        private void txtClientCode_Leave(object sender, EventArgs e)
+        {
+            BO_Client bO_Client = new BO_Client();
+            var client = bO_Client.Find(this.txtClientCode.Text);
+            if (client.IsValid == false)
+            {
+                MessageBox.Show(client.ReturnText);
+                this.btnAddClient.Visible = true;
+            }
+            else
+            {
+                this.btnAddClient.Visible = false;
+                
+            }
+        }
+
+        private void btnAddClient_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtWONumber_Leave(object sender, EventArgs e)
+        {
+            BO_WorkOrderHeader bo_WorkOrderHeader = new BO_WorkOrderHeader();
+            var workOrderHeader = bo_WorkOrderHeader.Find(Convert.ToInt32(this.txtWONumber.Text));
+            if (workOrderHeader.IsValid == true)
+            {
+                MessageBox.Show(workOrderHeader.ReturnText);
+
+            }
+            else
+            {
+                this.btnAddClient.Visible = false;
+
+            }
         }
     }
 }

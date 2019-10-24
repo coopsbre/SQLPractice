@@ -64,6 +64,7 @@
     <Compile Include="AddClient.Designer.cs">
       <DependentUpon>AddClient.cs</DependentUpon>
     </Compile>
+    <Compile Include="BO_Client.cs" />
     <Compile Include="BO_FunctionalDescription.cs" />
     <Compile Include="BO_TestPlan.cs" />
     <Compile Include="BO_WorkOrderDetail.cs" />
@@ -88,6 +89,9 @@
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
     </Compile>
     <Compile Include="ScriptFile.cs">
+      <DependentUpon>WorkOrderLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestPlanDtl.cs">
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
     </Compile>
     <Compile Include="TestPlanFile.cs">

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Activities">
       <EntityTypeMapping TypeName="WorkOrderLogModel.Activity">
         <MappingFragment StoreEntitySet="Activity">
+          <ScalarProperty Name="TestPlanDtlID" ColumnName="TestPlanDtlID" />
           <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
           <ScalarProperty Name="ActivityDescription" ColumnName="ActivityDescription" />
           <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
@@ -49,6 +50,7 @@
     <EntitySetMapping Name="WorkOrderScriptHdrs">
       <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderScriptHdr">
         <MappingFragment StoreEntitySet="WorkOrderScriptHdr">
+          <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
           <ScalarProperty Name="ScriptFileID" ColumnName="ScriptFileID" />
           <ScalarProperty Name="WODtlID" ColumnName="WODtlID" />
           <ScalarProperty Name="WOScriptHdrID" ColumnName="WOScriptHdrID" />
@@ -83,6 +85,16 @@
         <MappingFragment StoreEntitySet="TestPlanFile">
           <ScalarProperty Name="FileName" ColumnName="FileName" />
           <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestPlanDtls">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.TestPlanDtl">
+        <MappingFragment StoreEntitySet="TestPlanDtl">
+          <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TestPlanFileID" ColumnName="TestPlanFileID" />
+          <ScalarProperty Name="TestPlanDtlID" ColumnName="TestPlanDtlID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

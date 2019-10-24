@@ -29,7 +29,7 @@ namespace ClientProcesses
                     fileCreation.Close();
                     var folderCreation = Directory.CreateDirectory("c:\\Screenshots\\" + workOrderNumber + " " + clientCode);
 
-                    // Under the folder creation need to create 
+                    // Under the folder creation need to create sub folders.
                     if (FunctionDescriptionList.Any())
                     {
                         foreach (BO_FunctionalDescription bo_fd in FunctionDescriptionList)
@@ -47,6 +47,39 @@ namespace ClientProcesses
                     context.SaveChanges();
                     DVR.IsValid = true;
                     DVR.ReturnType = woh;
+                }
+            }
+            catch (Exception exception)
+            {
+                DVR.IsValid = false;
+                DVR.ReturnText = exception.Message;
+            }
+
+            return DVR;
+        }
+
+        public DataValidatorReturn Find(int workOrderNumber)
+        {
+            WorkOrderHeader workOrderHeader;
+
+            try
+            {
+                using (var context = new WorkOrderLogEntities())
+                {
+                    workOrderHeader = context.WorkOrderHeaders.Where(x => x.WOHdrID == workOrderNumber).ToList().FirstOrDefault();
+                }
+
+                if (workOrderHeader != null)
+                {
+                    DVR.ReturnType = workOrderHeader;
+                    DVR.IsValid = true;
+                    DVR.ReturnText = "Work Order: " + workOrderHeader.WOHdrID + " Found.";
+                }
+                else
+                {
+                    DVR.ReturnType = workOrderHeader;
+                    DVR.IsValid = false;
+                    DVR.ReturnText = "Work Order: " + workOrderNumber + " Not Found.";
                 }
             }
             catch (Exception exception)
