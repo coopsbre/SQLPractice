@@ -97,6 +97,12 @@
     <Compile Include="TestPlanFile.cs">
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
     </Compile>
+    <Compile Include="uc_FunctionalDescription.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="uc_FunctionalDescription.Designer.cs">
+      <DependentUpon>uc_FunctionalDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkOrderDetail.cs">
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
     </Compile>
@@ -137,6 +143,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="uc_FunctionalDescription.resx">
+      <DependentUpon>uc_FunctionalDescription.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
