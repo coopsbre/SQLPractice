@@ -150,5 +150,11 @@ namespace ClientProcesses
 
             tabControl1.Visible = true;
         }
+
+        private void buttonX1_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.Show();
+        }
     }
 }

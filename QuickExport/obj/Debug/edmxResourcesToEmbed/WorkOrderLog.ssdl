@@ -25,6 +25,62 @@
     <Property Name="ClientCode" Type="nvarchar" MaxLength="4" Nullable="false" />
     <Property Name="ClientFolder" Type="nvarchar" MaxLength="150" Nullable="false" />
   </EntityType>
+  <EntityType Name="FileDelimiter">
+    <Key>
+      <PropertyRef Name="FileDelimiterID" />
+    </Key>
+    <Property Name="UnqFileDelimiterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileDelimiterID" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="DelimiterChar" Type="nvarchar" MaxLength="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileDtl">
+    <Key>
+      <PropertyRef Name="FileDtlId" />
+    </Key>
+    <Property Name="FileDtlId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileHdrId" Type="int" Nullable="false" />
+    <Property Name="FileFieldNo" Type="smallint" Nullable="false" />
+    <Property Name="FileFieldId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileField">
+    <Key>
+      <PropertyRef Name="FileFieldID" />
+    </Key>
+    <Property Name="FileFieldID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileFieldTypeID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FileFieldName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="FieldFieldValue" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileFieldType">
+    <Key>
+      <PropertyRef Name="FileFieldlTypeId" />
+    </Key>
+    <Property Name="UniqueFileFieldTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileFieldlTypeId" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FileFieldDescription" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileHdr">
+    <Key>
+      <PropertyRef Name="FileHdrId" />
+    </Key>
+    <Property Name="FileHdrId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WOHdrID" Type="int" Nullable="false" />
+    <Property Name="FileProduceTypeId" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FileDelimiterID" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="ActivityID" Type="int" Nullable="false" />
+    <Property Name="HeaderFieldCount" Type="smallint" Nullable="false" />
+    <Property Name="PostingFieldCount" Type="smallint" Nullable="false" />
+    <Property Name="TaxFieldCount" Type="smallint" Nullable="false" />
+    <Property Name="ClearingFieldCount" Type="smallint" Nullable="false" />
+    <Property Name="InterCompanyFieldCount" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FileProduceType">
+    <Key>
+      <PropertyRef Name="FileProduceTypeID" />
+    </Key>
+    <Property Name="UnqFileProduceTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FileProduceTypeID" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
   <EntityType Name="ScriptAction">
     <Key>
       <PropertyRef Name="ScriptActionID" />
@@ -96,6 +152,78 @@
       </Principal>
       <Dependent Role="Activity">
         <PropertyRef Name="TestPlanDtlID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileDtl_FileDtl">
+    <End Role="FileHdr" Type="Self.FileHdr" Multiplicity="1" />
+    <End Role="FileDtl" Type="Self.FileDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileHdr">
+        <PropertyRef Name="FileHdrId" />
+      </Principal>
+      <Dependent Role="FileDtl">
+        <PropertyRef Name="FileHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileDtl_FileField">
+    <End Role="FileField" Type="Self.FileField" Multiplicity="1" />
+    <End Role="FileDtl" Type="Self.FileDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileField">
+        <PropertyRef Name="FileFieldID" />
+      </Principal>
+      <Dependent Role="FileDtl">
+        <PropertyRef Name="FileFieldId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileField_FileFieldType">
+    <End Role="FileFieldType" Type="Self.FileFieldType" Multiplicity="1" />
+    <End Role="FileField" Type="Self.FileField" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileFieldType">
+        <PropertyRef Name="FileFieldlTypeId" />
+      </Principal>
+      <Dependent Role="FileField">
+        <PropertyRef Name="FileFieldTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileHdr_Activity">
+    <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
+    <End Role="FileHdr" Type="Self.FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="ActivityID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="ActivityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileHdr_FileDelimiter">
+    <End Role="FileDelimiter" Type="Self.FileDelimiter" Multiplicity="1" />
+    <End Role="FileHdr" Type="Self.FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileDelimiter">
+        <PropertyRef Name="FileDelimiterID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="FileDelimiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileHdr_FileProduceType">
+    <End Role="FileProduceType" Type="Self.FileProduceType" Multiplicity="1" />
+    <End Role="FileHdr" Type="Self.FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileProduceType">
+        <PropertyRef Name="FileProduceTypeID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="FileProduceTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -187,6 +315,12 @@
     <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileDelimiter" EntityType="Self.FileDelimiter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileDtl" EntityType="Self.FileDtl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileField" EntityType="Self.FileField" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileFieldType" EntityType="Self.FileFieldType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileHdr" EntityType="Self.FileHdr" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FileProduceType" EntityType="Self.FileProduceType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptAction" EntityType="Self.ScriptAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ScriptFile" EntityType="Self.ScriptFile" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TestPlanDtl" EntityType="Self.TestPlanDtl" Schema="dbo" store:Type="Tables" />
@@ -197,6 +331,30 @@
     <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
       <End Role="TestPlanDtl" EntitySet="TestPlanDtl" />
       <End Role="Activity" EntitySet="Activity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileDtl_FileDtl" Association="Self.FK_FileDtl_FileDtl">
+      <End Role="FileHdr" EntitySet="FileHdr" />
+      <End Role="FileDtl" EntitySet="FileDtl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileDtl_FileField" Association="Self.FK_FileDtl_FileField">
+      <End Role="FileField" EntitySet="FileField" />
+      <End Role="FileDtl" EntitySet="FileDtl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileField_FileFieldType" Association="Self.FK_FileField_FileFieldType">
+      <End Role="FileFieldType" EntitySet="FileFieldType" />
+      <End Role="FileField" EntitySet="FileField" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileHdr_Activity" Association="Self.FK_FileHdr_Activity">
+      <End Role="Activity" EntitySet="Activity" />
+      <End Role="FileHdr" EntitySet="FileHdr" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileHdr_FileDelimiter" Association="Self.FK_FileHdr_FileDelimiter">
+      <End Role="FileDelimiter" EntitySet="FileDelimiter" />
+      <End Role="FileHdr" EntitySet="FileHdr" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileHdr_FileProduceType" Association="Self.FK_FileHdr_FileProduceType">
+      <End Role="FileProduceType" EntitySet="FileProduceType" />
+      <End Role="FileHdr" EntitySet="FileHdr" />
     </AssociationSet>
     <AssociationSet Name="FK_TestPlanDtl_TestPlanFile" Association="Self.FK_TestPlanDtl_TestPlanFile">
       <End Role="TestPlanFile" EntitySet="TestPlanFile" />

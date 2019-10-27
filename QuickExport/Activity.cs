@@ -17,6 +17,7 @@ namespace ClientProcesses
         public Activity()
         {
             this.WorkOrderDetails = new HashSet<WorkOrderDetail>();
+            this.FileHdrs = new HashSet<FileHdr>();
         }
     
         public int ActivityID { get; set; }
@@ -27,5 +28,6 @@ namespace ClientProcesses
         public virtual ICollection<WorkOrderDetail> WorkOrderDetails { get; set; }
         public virtual ActivityType ActivityType { get; set; }
         public virtual TestPlanDtl TestPlanDtl { get; set; }
+        public virtual ICollection<FileHdr> FileHdrs { get; set; }
     }
 }

@@ -13,3 +13,11 @@ C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\EntityFramework.xml
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.csproj.CopyComplete
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.AddClient.resources
 C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.uc_FunctionalDescription.resources
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.DotNetBar2.dll
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.DotNetBar2.xml
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.Form3.resources
+C:\Development\C#\Inlogik\ClientProcesses\obj\Debug\ClientProcesses.Form4.resources
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.DotNetBar.SuperGrid.dll
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.Instrumentation.dll
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.DotNetBar.SuperGrid.xml
+C:\Development\C#\Inlogik\ClientProcesses\bin\Debug\DevComponents.Instrumentation.xml

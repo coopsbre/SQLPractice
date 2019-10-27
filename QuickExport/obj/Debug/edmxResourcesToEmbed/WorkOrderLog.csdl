@@ -51,6 +51,36 @@
       <End Role="TestPlanFile" EntitySet="TestPlanFiles" />
       <End Role="WorkOrderScriptHdr" EntitySet="WorkOrderScriptHdrs" />
     </AssociationSet>
+    <EntitySet Name="FileDelimiters" EntityType="WorkOrderLogModel.FileDelimiter" />
+    <EntitySet Name="FileDtls" EntityType="WorkOrderLogModel.FileDtl" />
+    <EntitySet Name="FileFields" EntityType="WorkOrderLogModel.FileField" />
+    <EntitySet Name="FileFieldTypes" EntityType="WorkOrderLogModel.FileFieldType" />
+    <EntitySet Name="FileHdrs" EntityType="WorkOrderLogModel.FileHdr" />
+    <EntitySet Name="FileProduceTypes" EntityType="WorkOrderLogModel.FileProduceType" />
+    <AssociationSet Name="FK_FileHdr_Activity" Association="WorkOrderLogModel.FK_FileHdr_Activity">
+      <End Role="Activity" EntitySet="Activities" />
+      <End Role="FileHdr" EntitySet="FileHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileHdr_FileDelimiter" Association="WorkOrderLogModel.FK_FileHdr_FileDelimiter">
+      <End Role="FileDelimiter" EntitySet="FileDelimiters" />
+      <End Role="FileHdr" EntitySet="FileHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileDtl_FileDtl" Association="WorkOrderLogModel.FK_FileDtl_FileDtl">
+      <End Role="FileHdr" EntitySet="FileHdrs" />
+      <End Role="FileDtl" EntitySet="FileDtls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileDtl_FileField" Association="WorkOrderLogModel.FK_FileDtl_FileField">
+      <End Role="FileField" EntitySet="FileFields" />
+      <End Role="FileDtl" EntitySet="FileDtls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileField_FileFieldType" Association="WorkOrderLogModel.FK_FileField_FileFieldType">
+      <End Role="FileFieldType" EntitySet="FileFieldTypes" />
+      <End Role="FileField" EntitySet="FileFields" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FileHdr_FileProduceType" Association="WorkOrderLogModel.FK_FileHdr_FileProduceType">
+      <End Role="FileProduceType" EntitySet="FileProduceTypes" />
+      <End Role="FileHdr" EntitySet="FileHdrs" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Activity">
     <Key>
@@ -63,6 +93,7 @@
     <NavigationProperty Name="ActivityType" Relationship="WorkOrderLogModel.FK_Activity_ActivityType" FromRole="Activity" ToRole="ActivityType" />
     <Property Name="TestPlanDtlID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="TestPlanDtl" Relationship="WorkOrderLogModel.FK_Activity_ActivityType1" FromRole="Activity" ToRole="TestPlanDtl" />
+    <NavigationProperty Name="FileHdrs" Relationship="WorkOrderLogModel.FK_FileHdr_Activity" FromRole="Activity" ToRole="FileHdr" />
   </EntityType>
   <EntityType Name="Client">
     <Key>
@@ -276,6 +307,145 @@
       </Principal>
       <Dependent Role="WorkOrderScriptHdr">
         <PropertyRef Name="TestPlanFileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="FileDelimiter">
+    <Key>
+      <PropertyRef Name="FileDelimiterID" />
+    </Key>
+    <Property Name="UnqFileDelimiterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileDelimiterID" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="DelimiterChar" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="FileHdrs" Relationship="WorkOrderLogModel.FK_FileHdr_FileDelimiter" FromRole="FileDelimiter" ToRole="FileHdr" />
+  </EntityType>
+  <EntityType Name="FileDtl">
+    <Key>
+      <PropertyRef Name="FileDtlId" />
+    </Key>
+    <Property Name="FileDtlId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileHdrId" Type="Int32" Nullable="false" />
+    <Property Name="FileFieldNo" Type="Int16" Nullable="false" />
+    <Property Name="FileFieldId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FileHdr" Relationship="WorkOrderLogModel.FK_FileDtl_FileDtl" FromRole="FileDtl" ToRole="FileHdr" />
+    <NavigationProperty Name="FileField" Relationship="WorkOrderLogModel.FK_FileDtl_FileField" FromRole="FileDtl" ToRole="FileField" />
+  </EntityType>
+  <EntityType Name="FileField">
+    <Key>
+      <PropertyRef Name="FileFieldID" />
+    </Key>
+    <Property Name="FileFieldID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileFieldTypeID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="FileFieldName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="FieldFieldValue" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="FileDtls" Relationship="WorkOrderLogModel.FK_FileDtl_FileField" FromRole="FileField" ToRole="FileDtl" />
+    <NavigationProperty Name="FileFieldType" Relationship="WorkOrderLogModel.FK_FileField_FileFieldType" FromRole="FileField" ToRole="FileFieldType" />
+  </EntityType>
+  <EntityType Name="FileFieldType">
+    <Key>
+      <PropertyRef Name="FileFieldlTypeId" />
+    </Key>
+    <Property Name="UniqueFileFieldTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileFieldlTypeId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="FileFieldDescription" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="FileFields" Relationship="WorkOrderLogModel.FK_FileField_FileFieldType" FromRole="FileFieldType" ToRole="FileField" />
+  </EntityType>
+  <EntityType Name="FileHdr">
+    <Key>
+      <PropertyRef Name="FileHdrId" />
+    </Key>
+    <Property Name="FileHdrId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WOHdrID" Type="Int32" Nullable="false" />
+    <Property Name="FileProduceTypeId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="FileDelimiterID" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ActivityID" Type="Int32" Nullable="false" />
+    <Property Name="HeaderFieldCount" Type="Int16" Nullable="false" />
+    <Property Name="PostingFieldCount" Type="Int16" Nullable="false" />
+    <Property Name="TaxFieldCount" Type="Int16" Nullable="false" />
+    <Property Name="ClearingFieldCount" Type="Int16" Nullable="false" />
+    <Property Name="InterCompanyFieldCount" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Activity" Relationship="WorkOrderLogModel.FK_FileHdr_Activity" FromRole="FileHdr" ToRole="Activity" />
+    <NavigationProperty Name="FileDelimiter" Relationship="WorkOrderLogModel.FK_FileHdr_FileDelimiter" FromRole="FileHdr" ToRole="FileDelimiter" />
+    <NavigationProperty Name="FileDtls" Relationship="WorkOrderLogModel.FK_FileDtl_FileDtl" FromRole="FileHdr" ToRole="FileDtl" />
+    <NavigationProperty Name="FileProduceType" Relationship="WorkOrderLogModel.FK_FileHdr_FileProduceType" FromRole="FileHdr" ToRole="FileProduceType" />
+  </EntityType>
+  <EntityType Name="FileProduceType">
+    <Key>
+      <PropertyRef Name="FileProduceTypeID" />
+    </Key>
+    <Property Name="UnqFileProduceTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FileProduceTypeID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="FileHdrs" Relationship="WorkOrderLogModel.FK_FileHdr_FileProduceType" FromRole="FileProduceType" ToRole="FileHdr" />
+  </EntityType>
+  <Association Name="FK_FileHdr_Activity">
+    <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileHdr" Role="FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="ActivityID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="ActivityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileHdr_FileDelimiter">
+    <End Type="WorkOrderLogModel.FileDelimiter" Role="FileDelimiter" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileHdr" Role="FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileDelimiter">
+        <PropertyRef Name="FileDelimiterID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="FileDelimiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileDtl_FileDtl">
+    <End Type="WorkOrderLogModel.FileHdr" Role="FileHdr" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileDtl" Role="FileDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileHdr">
+        <PropertyRef Name="FileHdrId" />
+      </Principal>
+      <Dependent Role="FileDtl">
+        <PropertyRef Name="FileHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileDtl_FileField">
+    <End Type="WorkOrderLogModel.FileField" Role="FileField" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileDtl" Role="FileDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileField">
+        <PropertyRef Name="FileFieldID" />
+      </Principal>
+      <Dependent Role="FileDtl">
+        <PropertyRef Name="FileFieldId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileField_FileFieldType">
+    <End Type="WorkOrderLogModel.FileFieldType" Role="FileFieldType" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileField" Role="FileField" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileFieldType">
+        <PropertyRef Name="FileFieldlTypeId" />
+      </Principal>
+      <Dependent Role="FileField">
+        <PropertyRef Name="FileFieldTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FileHdr_FileProduceType">
+    <End Type="WorkOrderLogModel.FileProduceType" Role="FileProduceType" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.FileHdr" Role="FileHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FileProduceType">
+        <PropertyRef Name="FileProduceTypeID" />
+      </Principal>
+      <Dependent Role="FileHdr">
+        <PropertyRef Name="FileProduceTypeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -25,6 +25,18 @@
         <AssociationConnector Association="WorkOrderLogModel.FK_Activity_ActivityType1" />
         <AssociationConnector Association="WorkOrderLogModel.FK_TestPlanDtl_TestPlanFile" />
         <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderScriptHdr_TestPlanFile" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileDelimiter" Width="1.5" PointX="8" PointY="13" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileDtl" Width="1.5" PointX="12.5" PointY="3.75" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileField" Width="1.5" PointX="10.25" PointY="15.75" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileFieldType" Width="1.5" PointX="8" PointY="15.875" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileHdr" Width="1.5" PointX="10.25" PointY="2.875" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.FileProduceType" Width="1.5" PointX="8" PointY="10.75" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileHdr_Activity" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileHdr_FileDelimiter" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileDtl_FileDtl" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileDtl_FileField" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileField_FileFieldType" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_FileHdr_FileProduceType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

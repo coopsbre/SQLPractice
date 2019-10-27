@@ -35,5 +35,11 @@ namespace ClientProcesses
         public DbSet<WorkOrderHeader> WorkOrderHeaders { get; set; }
         public DbSet<TestPlanFile> TestPlanFiles { get; set; }
         public DbSet<TestPlanDtl> TestPlanDtls { get; set; }
+        public DbSet<FileDelimiter> FileDelimiters { get; set; }
+        public DbSet<FileDtl> FileDtls { get; set; }
+        public DbSet<FileField> FileFields { get; set; }
+        public DbSet<FileFieldType> FileFieldTypes { get; set; }
+        public DbSet<FileHdr> FileHdrs { get; set; }
+        public DbSet<FileProduceType> FileProduceTypes { get; set; }
     }
 }

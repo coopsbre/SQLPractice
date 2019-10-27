@@ -98,5 +98,67 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FileDelimiters">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileDelimiter">
+        <MappingFragment StoreEntitySet="FileDelimiter">
+          <ScalarProperty Name="DelimiterChar" ColumnName="DelimiterChar" />
+          <ScalarProperty Name="FileDelimiterID" ColumnName="FileDelimiterID" />
+          <ScalarProperty Name="UnqFileDelimiterID" ColumnName="UnqFileDelimiterID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileDtls">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileDtl">
+        <MappingFragment StoreEntitySet="FileDtl">
+          <ScalarProperty Name="FileFieldId" ColumnName="FileFieldId" />
+          <ScalarProperty Name="FileFieldNo" ColumnName="FileFieldNo" />
+          <ScalarProperty Name="FileHdrId" ColumnName="FileHdrId" />
+          <ScalarProperty Name="FileDtlId" ColumnName="FileDtlId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileFields">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileField">
+        <MappingFragment StoreEntitySet="FileField">
+          <ScalarProperty Name="FieldFieldValue" ColumnName="FieldFieldValue" />
+          <ScalarProperty Name="FileFieldName" ColumnName="FileFieldName" />
+          <ScalarProperty Name="FileFieldTypeID" ColumnName="FileFieldTypeID" />
+          <ScalarProperty Name="FileFieldID" ColumnName="FileFieldID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileFieldTypes">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileFieldType">
+        <MappingFragment StoreEntitySet="FileFieldType">
+          <ScalarProperty Name="FileFieldDescription" ColumnName="FileFieldDescription" />
+          <ScalarProperty Name="FileFieldlTypeId" ColumnName="FileFieldlTypeId" />
+          <ScalarProperty Name="UniqueFileFieldTypeId" ColumnName="UniqueFileFieldTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileHdrs">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileHdr">
+        <MappingFragment StoreEntitySet="FileHdr">
+          <ScalarProperty Name="InterCompanyFieldCount" ColumnName="InterCompanyFieldCount" />
+          <ScalarProperty Name="ClearingFieldCount" ColumnName="ClearingFieldCount" />
+          <ScalarProperty Name="TaxFieldCount" ColumnName="TaxFieldCount" />
+          <ScalarProperty Name="PostingFieldCount" ColumnName="PostingFieldCount" />
+          <ScalarProperty Name="HeaderFieldCount" ColumnName="HeaderFieldCount" />
+          <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+          <ScalarProperty Name="FileDelimiterID" ColumnName="FileDelimiterID" />
+          <ScalarProperty Name="FileProduceTypeId" ColumnName="FileProduceTypeId" />
+          <ScalarProperty Name="WOHdrID" ColumnName="WOHdrID" />
+          <ScalarProperty Name="FileHdrId" ColumnName="FileHdrId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FileProduceTypes">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.FileProduceType">
+        <MappingFragment StoreEntitySet="FileProduceType">
+          <ScalarProperty Name="FileProduceTypeID" ColumnName="FileProduceTypeID" />
+          <ScalarProperty Name="UnqFileProduceTypeID" ColumnName="UnqFileProduceTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
