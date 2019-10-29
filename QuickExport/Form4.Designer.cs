@@ -40,6 +40,11 @@ namespace ClientProcesses
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.wizardPage2 = new DevComponents.DotNetBar.WizardPage();
             this.wizardPage4 = new DevComponents.DotNetBar.WizardPage();
+            this.nUpICClearingFields = new System.Windows.Forms.NumericUpDown();
+            this.nUpClearingFields = new System.Windows.Forms.NumericUpDown();
+            this.nUpTaxFields = new System.Windows.Forms.NumericUpDown();
+            this.nUpPostingFields = new System.Windows.Forms.NumericUpDown();
+            this.nUpHeaderFields = new System.Windows.Forms.NumericUpDown();
             this.labelX16 = new DevComponents.DotNetBar.LabelX();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
@@ -80,21 +85,18 @@ namespace ClientProcesses
             this.wizardPage3 = new DevComponents.DotNetBar.WizardPage();
             this.superGridControl1 = new DevComponents.DotNetBar.SuperGrid.SuperGridControl();
             this.styleManager1 = new DevComponents.DotNetBar.StyleManager(this.components);
-            this.nUpHeaderFields = new System.Windows.Forms.NumericUpDown();
-            this.nUpPostingFields = new System.Windows.Forms.NumericUpDown();
-            this.nUpTaxFields = new System.Windows.Forms.NumericUpDown();
-            this.nUpClearingFields = new System.Windows.Forms.NumericUpDown();
-            this.nUpICClearingFields = new System.Windows.Forms.NumericUpDown();
+            this.labelX17 = new DevComponents.DotNetBar.LabelX();
+            this.txtActivityName = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.wizard1.SuspendLayout();
             this.wizardPage1.SuspendLayout();
             this.wizardPage2.SuspendLayout();
             this.wizardPage4.SuspendLayout();
-            this.wizardPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpHeaderFields)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpPostingFields)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpTaxFields)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpClearingFields)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpICClearingFields)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpClearingFields)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpTaxFields)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpPostingFields)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpHeaderFields)).BeginInit();
+            this.wizardPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // wizard1
@@ -258,6 +260,8 @@ namespace ClientProcesses
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.wizardPage4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeMobile2014;
+            this.wizardPage4.Controls.Add(this.txtActivityName);
+            this.wizardPage4.Controls.Add(this.labelX17);
             this.wizardPage4.Controls.Add(this.nUpICClearingFields);
             this.wizardPage4.Controls.Add(this.nUpClearingFields);
             this.wizardPage4.Controls.Add(this.nUpTaxFields);
@@ -299,6 +303,41 @@ namespace ClientProcesses
             this.wizardPage4.ThemeAware = true;
             this.wizardPage4.NextButtonClick += new System.ComponentModel.CancelEventHandler(this.wizardPage4_NextButtonClick);
             // 
+            // nUpICClearingFields
+            // 
+            this.nUpICClearingFields.Location = new System.Drawing.Point(675, 378);
+            this.nUpICClearingFields.Name = "nUpICClearingFields";
+            this.nUpICClearingFields.Size = new System.Drawing.Size(56, 20);
+            this.nUpICClearingFields.TabIndex = 20;
+            // 
+            // nUpClearingFields
+            // 
+            this.nUpClearingFields.Location = new System.Drawing.Point(592, 378);
+            this.nUpClearingFields.Name = "nUpClearingFields";
+            this.nUpClearingFields.Size = new System.Drawing.Size(56, 20);
+            this.nUpClearingFields.TabIndex = 19;
+            // 
+            // nUpTaxFields
+            // 
+            this.nUpTaxFields.Location = new System.Drawing.Point(521, 378);
+            this.nUpTaxFields.Name = "nUpTaxFields";
+            this.nUpTaxFields.Size = new System.Drawing.Size(56, 20);
+            this.nUpTaxFields.TabIndex = 18;
+            // 
+            // nUpPostingFields
+            // 
+            this.nUpPostingFields.Location = new System.Drawing.Point(443, 378);
+            this.nUpPostingFields.Name = "nUpPostingFields";
+            this.nUpPostingFields.Size = new System.Drawing.Size(56, 20);
+            this.nUpPostingFields.TabIndex = 17;
+            // 
+            // nUpHeaderFields
+            // 
+            this.nUpHeaderFields.Location = new System.Drawing.Point(369, 378);
+            this.nUpHeaderFields.Name = "nUpHeaderFields";
+            this.nUpHeaderFields.Size = new System.Drawing.Size(56, 20);
+            this.nUpHeaderFields.TabIndex = 16;
+            // 
             // labelX16
             // 
             this.labelX16.AutoSize = true;
@@ -307,7 +346,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX16.Location = new System.Drawing.Point(659, 338);
+            this.labelX16.Location = new System.Drawing.Point(675, 357);
             this.labelX16.Name = "labelX16";
             this.labelX16.Size = new System.Drawing.Size(93, 15);
             this.labelX16.TabIndex = 15;
@@ -321,7 +360,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Location = new System.Drawing.Point(576, 338);
+            this.labelX15.Location = new System.Drawing.Point(592, 357);
             this.labelX15.Name = "labelX15";
             this.labelX15.Size = new System.Drawing.Size(79, 15);
             this.labelX15.TabIndex = 14;
@@ -336,7 +375,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX14.Location = new System.Drawing.Point(505, 338);
+            this.labelX14.Location = new System.Drawing.Point(521, 357);
             this.labelX14.Name = "labelX14";
             this.labelX14.Size = new System.Drawing.Size(56, 15);
             this.labelX14.TabIndex = 13;
@@ -350,7 +389,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX13.Location = new System.Drawing.Point(427, 338);
+            this.labelX13.Location = new System.Drawing.Point(443, 357);
             this.labelX13.Name = "labelX13";
             this.labelX13.Size = new System.Drawing.Size(75, 15);
             this.labelX13.TabIndex = 12;
@@ -364,7 +403,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX12.Location = new System.Drawing.Point(353, 338);
+            this.labelX12.Location = new System.Drawing.Point(369, 357);
             this.labelX12.Name = "labelX12";
             this.labelX12.Size = new System.Drawing.Size(74, 15);
             this.labelX12.TabIndex = 11;
@@ -380,7 +419,7 @@ namespace ClientProcesses
             this.cboFileOrdering.ItemHeight = 15;
             this.cboFileOrdering.Items.AddRange(new object[] {
             this.comboItem11});
-            this.cboFileOrdering.Location = new System.Drawing.Point(353, 281);
+            this.cboFileOrdering.Location = new System.Drawing.Point(369, 300);
             this.cboFileOrdering.Name = "cboFileOrdering";
             this.cboFileOrdering.Size = new System.Drawing.Size(208, 21);
             this.cboFileOrdering.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -398,7 +437,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX7.Location = new System.Drawing.Point(353, 261);
+            this.labelX7.Location = new System.Drawing.Point(369, 280);
             this.labelX7.Name = "labelX7";
             this.labelX7.Size = new System.Drawing.Size(107, 15);
             this.labelX7.TabIndex = 9;
@@ -414,7 +453,7 @@ namespace ClientProcesses
             this.cboFileGrouping.ItemHeight = 15;
             this.cboFileGrouping.Items.AddRange(new object[] {
             this.comboItem12});
-            this.cboFileGrouping.Location = new System.Drawing.Point(353, 234);
+            this.cboFileGrouping.Location = new System.Drawing.Point(369, 253);
             this.cboFileGrouping.Name = "cboFileGrouping";
             this.cboFileGrouping.Size = new System.Drawing.Size(207, 21);
             this.cboFileGrouping.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -432,7 +471,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX8.Location = new System.Drawing.Point(353, 213);
+            this.labelX8.Location = new System.Drawing.Point(369, 232);
             this.labelX8.Name = "labelX8";
             this.labelX8.Size = new System.Drawing.Size(72, 15);
             this.labelX8.TabIndex = 7;
@@ -448,10 +487,10 @@ namespace ClientProcesses
             this.txtFileName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtFileName.DisabledBackColor = System.Drawing.Color.White;
             this.txtFileName.ForeColor = System.Drawing.Color.Black;
-            this.txtFileName.Location = new System.Drawing.Point(353, 185);
+            this.txtFileName.Location = new System.Drawing.Point(369, 204);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.PreventEnterBeep = true;
-            this.txtFileName.Size = new System.Drawing.Size(207, 20);
+            this.txtFileName.Size = new System.Drawing.Size(362, 20);
             this.txtFileName.TabIndex = 6;
             // 
             // labelX11
@@ -462,7 +501,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX11.Location = new System.Drawing.Point(353, 164);
+            this.labelX11.Location = new System.Drawing.Point(369, 183);
             this.labelX11.Name = "labelX11";
             this.labelX11.Size = new System.Drawing.Size(56, 15);
             this.labelX11.TabIndex = 5;
@@ -479,7 +518,7 @@ namespace ClientProcesses
             this.cboFileDelimiter.Items.AddRange(new object[] {
             this.comboItem13,
             this.comboItem14});
-            this.cboFileDelimiter.Location = new System.Drawing.Point(353, 137);
+            this.cboFileDelimiter.Location = new System.Drawing.Point(369, 156);
             this.cboFileDelimiter.Name = "cboFileDelimiter";
             this.cboFileDelimiter.Size = new System.Drawing.Size(121, 21);
             this.cboFileDelimiter.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -501,7 +540,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX9.Location = new System.Drawing.Point(353, 117);
+            this.labelX9.Location = new System.Drawing.Point(369, 136);
             this.labelX9.Name = "labelX9";
             this.labelX9.Size = new System.Drawing.Size(70, 15);
             this.labelX9.TabIndex = 3;
@@ -518,7 +557,7 @@ namespace ClientProcesses
             this.cboFilesProduced.Items.AddRange(new object[] {
             this.comboItem15,
             this.comboItem16});
-            this.cboFilesProduced.Location = new System.Drawing.Point(353, 85);
+            this.cboFilesProduced.Location = new System.Drawing.Point(369, 104);
             this.cboFilesProduced.Name = "cboFilesProduced";
             this.cboFilesProduced.Size = new System.Drawing.Size(121, 21);
             this.cboFilesProduced.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -540,7 +579,7 @@ namespace ClientProcesses
             // 
             // 
             this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX10.Location = new System.Drawing.Point(353, 64);
+            this.labelX10.Location = new System.Drawing.Point(369, 83);
             this.labelX10.Name = "labelX10";
             this.labelX10.Size = new System.Drawing.Size(79, 15);
             this.labelX10.TabIndex = 0;
@@ -758,40 +797,35 @@ namespace ClientProcesses
             this.styleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Metro;
             this.styleManager1.MetroColorParameters = new DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(163)))), ((int)(((byte)(26))))));
             // 
-            // nUpHeaderFields
+            // labelX17
             // 
-            this.nUpHeaderFields.Location = new System.Drawing.Point(353, 359);
-            this.nUpHeaderFields.Name = "nUpHeaderFields";
-            this.nUpHeaderFields.Size = new System.Drawing.Size(56, 20);
-            this.nUpHeaderFields.TabIndex = 16;
+            this.labelX17.AutoSize = true;
+            this.labelX17.BackColor = System.Drawing.Color.Transparent;
             // 
-            // nUpPostingFields
             // 
-            this.nUpPostingFields.Location = new System.Drawing.Point(427, 359);
-            this.nUpPostingFields.Name = "nUpPostingFields";
-            this.nUpPostingFields.Size = new System.Drawing.Size(56, 20);
-            this.nUpPostingFields.TabIndex = 17;
             // 
-            // nUpTaxFields
+            this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX17.Location = new System.Drawing.Point(369, 36);
+            this.labelX17.Name = "labelX17";
+            this.labelX17.Size = new System.Drawing.Size(73, 15);
+            this.labelX17.TabIndex = 21;
+            this.labelX17.Text = "Activity Name:";
             // 
-            this.nUpTaxFields.Location = new System.Drawing.Point(505, 359);
-            this.nUpTaxFields.Name = "nUpTaxFields";
-            this.nUpTaxFields.Size = new System.Drawing.Size(56, 20);
-            this.nUpTaxFields.TabIndex = 18;
+            // txtActivityName
             // 
-            // nUpClearingFields
+            this.txtActivityName.BackColor = System.Drawing.Color.White;
             // 
-            this.nUpClearingFields.Location = new System.Drawing.Point(576, 359);
-            this.nUpClearingFields.Name = "nUpClearingFields";
-            this.nUpClearingFields.Size = new System.Drawing.Size(56, 20);
-            this.nUpClearingFields.TabIndex = 19;
             // 
-            // nUpICClearingFields
             // 
-            this.nUpICClearingFields.Location = new System.Drawing.Point(659, 359);
-            this.nUpICClearingFields.Name = "nUpICClearingFields";
-            this.nUpICClearingFields.Size = new System.Drawing.Size(56, 20);
-            this.nUpICClearingFields.TabIndex = 20;
+            this.txtActivityName.Border.Class = "TextBoxBorder";
+            this.txtActivityName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtActivityName.DisabledBackColor = System.Drawing.Color.White;
+            this.txtActivityName.ForeColor = System.Drawing.Color.Black;
+            this.txtActivityName.Location = new System.Drawing.Point(369, 57);
+            this.txtActivityName.Name = "txtActivityName";
+            this.txtActivityName.PreventEnterBeep = true;
+            this.txtActivityName.Size = new System.Drawing.Size(362, 20);
+            this.txtActivityName.TabIndex = 22;
             // 
             // Form4
             // 
@@ -807,12 +841,12 @@ namespace ClientProcesses
             this.wizardPage2.PerformLayout();
             this.wizardPage4.ResumeLayout(false);
             this.wizardPage4.PerformLayout();
-            this.wizardPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nUpHeaderFields)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpPostingFields)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpTaxFields)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nUpClearingFields)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUpICClearingFields)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpClearingFields)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpTaxFields)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpPostingFields)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpHeaderFields)).EndInit();
+            this.wizardPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -874,5 +908,7 @@ namespace ClientProcesses
         private System.Windows.Forms.NumericUpDown nUpICClearingFields;
         private System.Windows.Forms.NumericUpDown nUpClearingFields;
         private System.Windows.Forms.NumericUpDown nUpTaxFields;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtActivityName;
+        private DevComponents.DotNetBar.LabelX labelX17;
     }
 }

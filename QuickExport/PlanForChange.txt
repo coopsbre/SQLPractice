@@ -1,0 +1,21 @@
+DTO_FileHdr					
+WO_HdrID 	FileProduceTypeId	FileDelimiterId	ActivityID 	HeaderFieldCount	PostingFieldCount
+123456	1	COMMA			
+					
+					
+					
+					
+Database Items To Create For New Export 		Folder Items to Create for New Export 		File Items To Create 	
+1	TestPlanFile 	1	Folder Per Work Order	1	TestPlan File Per Work Order 
+1	Activity Record Per Activity 	1	Sub Folder Per Activity 		
+1	WorkOrderHeader				
+1	WorkOrderDetail Per Activity 				
+1	FileHdr Per Activity 				
+1	FileDtl Per Specific Field 				
+					
+					
+Database items to create for any other process		Folder Items to Create for any other process 		File Items To Create 	
+1	TestPlanFile 	1	Folder Per Work Order	1	TestPlan File Per Work Order 
+1	Activity Record Per Activity 	1	Sub Folder Per Activity 		
+1	WorkOrderHeader				
+1	WorkOrderDetail Per Activity 				

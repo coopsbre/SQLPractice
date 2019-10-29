@@ -1,12 +1,8 @@
+using DevComponents.Editors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using DevComponents.DotNetBar;
-using DevComponents.Editors;
 
 namespace ClientProcesses
 {
@@ -24,14 +20,14 @@ namespace ClientProcesses
             this.cboFileDelimiter.SelectedIndex = 1;
             this.cboFileGrouping.SelectedIndex = 0;
             this.cboFilesProduced.SelectedIndex = 0;
-            
-            
+
+
 
             dtoFileHdrList = new List<DTO_FileHdr>();
 
-            
 
-            
+
+
         }
 
         private void labelX15_Click(object sender, EventArgs e)
@@ -44,7 +40,7 @@ namespace ClientProcesses
             DTO_FileHdr dTO_FileHdr = new DTO_FileHdr()
             {
                 FileProduceTypeId = this.cboFileDelimiter.SelectedText,
-                ActivityName = "Export CBA to Westpac",
+                ActivityName = txtActivityName.Text,
                 HeaderFields = Convert.ToInt32(this.nUpHeaderFields.Value),
                 TaxFields = Convert.ToInt32(this.nUpTaxFields.Value),
                 ClearingFields = Convert.ToInt32(this.nUpClearingFields.Value),
@@ -64,7 +60,7 @@ namespace ClientProcesses
 
         private void wizardPage1_NextButtonClick(object sender, CancelEventArgs e)
         {
-           
+
         }
 
         private void wizard1_NextButtonClick(object sender, CancelEventArgs e)
