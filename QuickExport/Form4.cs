@@ -83,9 +83,15 @@ namespace ClientProcesses
 
                 };
 
+                dTO_FileHdr.AddToFileDtlList(dTO_FileHdr);
+
                 dtoFileHdrList.Add(dTO_FileHdr);
 
                 this.superGridControl1.PrimaryGrid.DataSource = dtoFileHdrList;
+            }
+            else if (this.wizard1.SelectedPageIndex == 2)
+            {
+
             }
         }
     }

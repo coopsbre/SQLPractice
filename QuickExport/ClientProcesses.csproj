@@ -79,6 +79,7 @@
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
     </Compile>
     <Compile Include="DataValidatorReturn.cs" />
+    <Compile Include="DTO_FileDtl.cs" />
     <Compile Include="DTO_FileHdr.cs" />
     <Compile Include="FileDelimiter.cs">
       <DependentUpon>WorkOrderLog.tt</DependentUpon>
