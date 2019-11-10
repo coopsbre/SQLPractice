@@ -1,0 +1,11 @@
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\bin\Debug\WorkOrderCreator.exe.config
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\bin\Debug\WorkOrderCreator.exe
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\bin\Debug\WorkOrderCreator.pdb
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\bin\Debug\EntityFramework.dll
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\bin\Debug\EntityFramework.xml
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.Properties.Resources.resources
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.csproj.GenerateResource.cache
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.csproj.CoreCompileInputs.cache
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.csproj.CopyComplete
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.exe
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.pdb

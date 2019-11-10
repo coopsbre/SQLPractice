@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ca6595e6e1194c919fd30c021823c626" Name="Diagram1">
+        <EntityTypeShape EntityType="WorkOrderLogModel.Client" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderHeader" Width="1.5" PointX="3" PointY="5.125" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderHeader_Client" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.Activity" Width="1.5" PointX="3" PointY="9.75" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderDetail" Width="1.5" PointX="5.25" PointY="5.5" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_Activity" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.ActivityType" Width="1.5" PointX="0.75" PointY="9.875" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_Activity_ActivityType" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

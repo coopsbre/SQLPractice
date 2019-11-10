@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorkOrderLogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Activity">
+    <Key>
+      <PropertyRef Name="ActivityID" />
+    </Key>
+    <Property Name="ActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActivityDescription" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ActivityTypeID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActivityType">
+    <Key>
+      <PropertyRef Name="ActivityTypeID" />
+    </Key>
+    <Property Name="ActivityTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShortDescription" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LongDescription" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="CategoryID" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientCode" />
+    </Key>
+    <Property Name="UniqueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClientCode" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="ClientFolder" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkOrderDetail">
+    <Key>
+      <PropertyRef Name="WODtlId" />
+    </Key>
+    <Property Name="WODtlId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WOHdrID" Type="int" Nullable="false" />
+    <Property Name="ItemNumber" Type="int" Nullable="false" />
+    <Property Name="ActivityID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WorkOrderHeader">
+    <Key>
+      <PropertyRef Name="WOHdrID" />
+    </Key>
+    <Property Name="WOUniqueID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WOHdrID" Type="int" Nullable="false" />
+    <Property Name="ClientCode" Type="nvarchar" MaxLength="4" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifiedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Activity_ActivityType">
+    <End Role="ActivityType" Type="Self.ActivityType" Multiplicity="1" />
+    <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActivityType">
+        <PropertyRef Name="ActivityTypeID" />
+      </Principal>
+      <Dependent Role="Activity">
+        <PropertyRef Name="ActivityTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkOrderDetail_Activity">
+    <End Role="Activity" Type="Self.Activity" Multiplicity="1" />
+    <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Activity">
+        <PropertyRef Name="ActivityID" />
+      </Principal>
+      <Dependent Role="WorkOrderDetail">
+        <PropertyRef Name="ActivityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkOrderDetail_WorkOrderHeader">
+    <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="1" />
+    <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkOrderHeader">
+        <PropertyRef Name="WOHdrID" />
+      </Principal>
+      <Dependent Role="WorkOrderDetail">
+        <PropertyRef Name="WOHdrID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WorkOrderHeader_Client">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientCode" />
+      </Principal>
+      <Dependent Role="WorkOrderHeader">
+        <PropertyRef Name="ClientCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WorkOrderLogModelStoreContainer">
+    <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
+      <End Role="ActivityType" EntitySet="ActivityType" />
+      <End Role="Activity" EntitySet="Activity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkOrderDetail_Activity" Association="Self.FK_WorkOrderDetail_Activity">
+      <End Role="Activity" EntitySet="Activity" />
+      <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="Self.FK_WorkOrderDetail_WorkOrderHeader">
+      <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
+      <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WorkOrderHeader_Client" Association="Self.FK_WorkOrderHeader_Client">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
