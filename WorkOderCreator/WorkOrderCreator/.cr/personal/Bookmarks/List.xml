@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root Type="DevExpress.CodeRush.Foundation.Markers.SolutionBookmarksContainer">
+  <Options Language="Neutral">
+    <Items>
+      <Item Id="{02506162-f8d5-4bc0-9e4f-292efd161af8}">
+        <Id>1</Id>
+        <File>WorkOrderCreator\BusinessObjects\BO_ActivityType.cs</File>
+        <Line>139</Line>
+        <Character>46</Character>
+        <ViewportTop>70</ViewportTop>
+        <ViewportTopMax>178</ViewportTopMax>
+        <TopLine>70</TopLine>
+      </Item>
+    </Items>
+  </Options>
+</Root>
