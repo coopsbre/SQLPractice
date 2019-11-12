@@ -55,6 +55,7 @@
     <Compile Include="BusinessObjects\BO_Activity.cs" />
     <Compile Include="BusinessObjects\BO_ActivityType.cs" />
     <Compile Include="BusinessObjects\BO_Client.cs" />
+    <Compile Include="BusinessObjects\BO_SourceScriptHdr.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderDetail.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderHeader.cs" />
     <Compile Include="BusinessObjects\_BO.cs" />
@@ -65,6 +66,12 @@
       <DependentUpon>WorkOrderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModels\Client.cs">
+      <DependentUpon>WorkOrderModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\SourceScriptDtl.cs">
+      <DependentUpon>WorkOrderModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\SourceScriptHdr.cs">
       <DependentUpon>WorkOrderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModels\WorkOrderDetail.cs">

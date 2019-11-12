@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using WorkOrderCreator.DataModels;
 using WorkOrderCreator.HelperClasses;
@@ -22,7 +23,7 @@ namespace WorkOrderCreator.BusinessObjects
 
                 using (var context = new WorkOrderLogEntities())
                 {
-                    workOrderHeaders = context.WorkOrderHeaders.Where(x => x.WOHdrID == workOrderID).ToList();
+                    workOrderHeaders = context.WorkOrderHeaders.Include(x => x.Client).Where(x => x.WOHdrID == workOrderID).ToList();
                 }
 
                 DVR.ItemFound = workOrderHeaders.Any();

@@ -52,5 +52,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SourceScriptHdrs">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.SourceScriptHdr">
+        <MappingFragment StoreEntitySet="SourceScriptHdr">
+          <ScalarProperty Name="ActivityTypeID" ColumnName="ActivityTypeID" />
+          <ScalarProperty Name="SourceScriptHdrID" ColumnName="SourceScriptHdrID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SourceScriptDtls">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.SourceScriptDtl">
+        <MappingFragment StoreEntitySet="SourceScriptDtl">
+          <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+          <ScalarProperty Name="SourceFile" ColumnName="SourceFile" />
+          <ScalarProperty Name="SourceScriptHdrID" ColumnName="SourceScriptHdrID" />
+          <ScalarProperty Name="SourceScriptDtlID" ColumnName="SourceScriptDtlID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

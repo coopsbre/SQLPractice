@@ -9,3 +9,4 @@ C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\W
 C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.csproj.CopyComplete
 C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.exe
 C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.pdb
+C:\Users\BrendonMelina\source\repos\WorkOderCreator\WorkOrderCreator\obj\Debug\WorkOrderCreator.csprojAssemblyReference.cache

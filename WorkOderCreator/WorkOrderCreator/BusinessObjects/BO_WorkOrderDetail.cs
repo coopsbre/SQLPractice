@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using WorkOrderCreator.DataModels;
 using WorkOrderCreator.HelperClasses;
@@ -71,6 +72,7 @@ namespace WorkOrderCreator.BusinessObjects
 
         public DataValidatorReturn Create(int workOrderID, int itemNumber, int activityID)
         {
+            WorkOrderHeader workOrderHeader = null; 
 
             DVR = MethodHelper.IsGreaterThanZero("Work Order Number", workOrderID);
 
@@ -95,8 +97,27 @@ namespace WorkOrderCreator.BusinessObjects
                 return DVR;
             }
 
+            BO_WorkOrderHeader bo_WorkOrderHeader = new BO_WorkOrderHeader();
+
+            DVR = bo_WorkOrderHeader.Find(workOrderID);
+
+            if (DVR.ItemFound == false)
+            {
+                DVR.IsValid = false;
+                DVR.ReturnText = "Work Order Header # " + workOrderID.ToString() + " doesn't exist.";
+                DVR.ItemFound = true;
+                return DVR;
+            }
+            else
+            {
+                workOrderHeader = DVR.ReturnType as WorkOrderHeader;
+            }
+
             using (var context = new WorkOrderLogEntities())
             {
+                // Find the work Order Header here. 
+                
+
                 WorkOrderDetail workOrderDetail = new WorkOrderDetail()
                 {
                     WOHdrID = workOrderID,
@@ -106,6 +127,8 @@ namespace WorkOrderCreator.BusinessObjects
 
                 try
                 {
+                    int activityTypeID = 2; 
+
                     context.WorkOrderDetails.Add(workOrderDetail);
                     //Once we have created a work order detail need to look for the  
                     //Activity using the activity Id, and then get the activityTypeId
@@ -113,6 +136,45 @@ namespace WorkOrderCreator.BusinessObjects
                     //and use the info from the sourcescriptdtl table to create 
                     //WorkOrderDtlScript records also need to create these actual files 
                     //by retrieving the source items and pasting to the new files.
+                    BO_SourceScriptHdr bo_SourceScriptHdr = new BO_SourceScriptHdr();
+                    DataValidatorReturn dataValidatorReturn = bo_SourceScriptHdr.Find(activityTypeID);
+
+                    if (dataValidatorReturn.ItemFound)
+                    {
+                        var sourceScriptHdr  = dataValidatorReturn.ReturnType as SourceScriptHdr;
+                        var sourceScriptDtls = sourceScriptHdr.SourceScriptDtls;
+
+                        if (sourceScriptDtls.Any())
+                        {
+                            string sourceFileFullPath = string.Empty;
+                            string sourceFile = string.Empty;
+                            string sourceClientCode = string.Empty; 
+                            string destFile = string.Empty;
+                            string destClientCode = string.Empty;
+                            string destFileFullPath = string.Empty;
+                            string destFolder = string.Empty;
+
+                            foreach (SourceScriptDtl sourceScriptDtl in sourceScriptDtls)
+                            {
+                                // Set the source File.
+                                sourceFile = sourceScriptDtl.SourceFile;
+                                sourceClientCode = sourceScriptDtl.ClientCode;
+                                sourceFileFullPath = Path.Combine(sourceScriptDtl.Client.ClientFolder, sourceScriptDtl.SourceFile);
+
+                                destClientCode = workOrderHeader.ClientCode;
+                                destFile = sourceFile.Replace(sourceClientCode, destClientCode);
+                                destFolder = workOrderHeader.Client.ClientFolder;
+                                destFileFullPath = Path.Combine(destFolder, destFile);
+
+                                File.Copy(sourceFileFullPath, destFileFullPath);
+
+                                //Create WorkOrderDetailScripts foreach script created.
+
+
+                            }
+                        }
+                    }
+
                     context.SaveChanges();
                     DVR.IsValid = true;
                     DVR.ReturnText = "Work Order Detail #" + workOrderID.ToString() + " Added to the Database.";

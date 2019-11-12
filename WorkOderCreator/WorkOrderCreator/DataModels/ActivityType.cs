@@ -17,6 +17,7 @@ namespace WorkOrderCreator.DataModels
         public ActivityType()
         {
             this.Activities = new HashSet<Activity>();
+            this.SourceScriptHdrs = new HashSet<SourceScriptHdr>();
         }
     
         public int ActivityTypeID { get; set; }
@@ -25,5 +26,6 @@ namespace WorkOrderCreator.DataModels
         public string CategoryID { get; set; }
     
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<SourceScriptHdr> SourceScriptHdrs { get; set; }
     }
 }

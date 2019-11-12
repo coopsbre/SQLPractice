@@ -17,6 +17,7 @@ namespace WorkOrderCreator.DataModels
         public Client()
         {
             this.WorkOrderHeaders = new HashSet<WorkOrderHeader>();
+            this.SourceScriptDtls = new HashSet<SourceScriptDtl>();
         }
     
         public int UniqueID { get; set; }
@@ -24,5 +25,6 @@ namespace WorkOrderCreator.DataModels
         public string ClientFolder { get; set; }
     
         public virtual ICollection<WorkOrderHeader> WorkOrderHeaders { get; set; }
+        public virtual ICollection<SourceScriptDtl> SourceScriptDtls { get; set; }
     }
 }

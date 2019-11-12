@@ -14,6 +14,11 @@
         <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" />
         <EntityTypeShape EntityType="WorkOrderLogModel.ActivityType" Width="1.5" PointX="0.75" PointY="9.875" />
         <AssociationConnector Association="WorkOrderLogModel.FK_Activity_ActivityType" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.SourceScriptHdr" Width="1.5" PointX="3" PointY="13.125" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_SourceScriptHdr_ActivityType" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.SourceScriptDtl" Width="1.5" PointX="5.25" PointY="8.75" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_SourceScriptDtl_Client" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_SourceScriptDtl_SourceScriptHdr" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

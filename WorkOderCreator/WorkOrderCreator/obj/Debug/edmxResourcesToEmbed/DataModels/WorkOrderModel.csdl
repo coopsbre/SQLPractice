@@ -8,6 +8,7 @@
     <Property Name="ClientCode" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="ClientFolder" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="WorkOrderHeaders" Relationship="WorkOrderLogModel.FK_WorkOrderHeader_Client" FromRole="Client" ToRole="WorkOrderHeader" />
+    <NavigationProperty Name="SourceScriptDtls" Relationship="WorkOrderLogModel.FK_SourceScriptDtl_Client" FromRole="Client" ToRole="SourceScriptDtl" />
   </EntityType>
   <EntityContainer Name="WorkOrderLogEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Clients" EntityType="Self.Client" />
@@ -30,6 +31,20 @@
     <AssociationSet Name="FK_Activity_ActivityType" Association="WorkOrderLogModel.FK_Activity_ActivityType">
       <End Role="ActivityType" EntitySet="ActivityTypes" />
       <End Role="Activity" EntitySet="Activities" />
+    </AssociationSet>
+    <EntitySet Name="SourceScriptHdrs" EntityType="WorkOrderLogModel.SourceScriptHdr" />
+    <AssociationSet Name="FK_SourceScriptHdr_ActivityType" Association="WorkOrderLogModel.FK_SourceScriptHdr_ActivityType">
+      <End Role="ActivityType" EntitySet="ActivityTypes" />
+      <End Role="SourceScriptHdr" EntitySet="SourceScriptHdrs" />
+    </AssociationSet>
+    <EntitySet Name="SourceScriptDtls" EntityType="WorkOrderLogModel.SourceScriptDtl" />
+    <AssociationSet Name="FK_SourceScriptDtl_Client" Association="WorkOrderLogModel.FK_SourceScriptDtl_Client">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="SourceScriptDtl" EntitySet="SourceScriptDtls" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SourceScriptDtl_SourceScriptHdr" Association="WorkOrderLogModel.FK_SourceScriptDtl_SourceScriptHdr">
+      <End Role="SourceScriptHdr" EntitySet="SourceScriptHdrs" />
+      <End Role="SourceScriptDtl" EntitySet="SourceScriptDtls" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="WorkOrderHeader">
@@ -112,6 +127,7 @@
     <Property Name="LongDescription" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Activities" Relationship="WorkOrderLogModel.FK_Activity_ActivityType" FromRole="ActivityType" ToRole="Activity" />
     <Property Name="CategoryID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SourceScriptHdrs" Relationship="WorkOrderLogModel.FK_SourceScriptHdr_ActivityType" FromRole="ActivityType" ToRole="SourceScriptHdr" />
   </EntityType>
   <Association Name="FK_Activity_ActivityType">
     <End Type="WorkOrderLogModel.ActivityType" Role="ActivityType" Multiplicity="1" />
@@ -122,6 +138,62 @@
       </Principal>
       <Dependent Role="Activity">
         <PropertyRef Name="ActivityTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SourceScriptHdr">
+    <Key>
+      <PropertyRef Name="SourceScriptHdrID" />
+    </Key>
+    <Property Name="SourceScriptHdrID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActivityTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ActivityType" Relationship="WorkOrderLogModel.FK_SourceScriptHdr_ActivityType" FromRole="SourceScriptHdr" ToRole="ActivityType" />
+    <NavigationProperty Name="SourceScriptDtls" Relationship="WorkOrderLogModel.FK_SourceScriptDtl_SourceScriptHdr" FromRole="SourceScriptHdr" ToRole="SourceScriptDtl" />
+  </EntityType>
+  <Association Name="FK_SourceScriptHdr_ActivityType">
+    <End Type="WorkOrderLogModel.ActivityType" Role="ActivityType" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.SourceScriptHdr" Role="SourceScriptHdr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActivityType">
+        <PropertyRef Name="ActivityTypeID" />
+      </Principal>
+      <Dependent Role="SourceScriptHdr">
+        <PropertyRef Name="ActivityTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SourceScriptDtl">
+    <Key>
+      <PropertyRef Name="SourceScriptDtlID" />
+    </Key>
+    <Property Name="SourceScriptDtlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SourceScriptHdrID" Type="Int32" Nullable="false" />
+    <Property Name="SourceFile" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ClientCode" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Client" Relationship="WorkOrderLogModel.FK_SourceScriptDtl_Client" FromRole="SourceScriptDtl" ToRole="Client" />
+    <NavigationProperty Name="SourceScriptHdr" Relationship="WorkOrderLogModel.FK_SourceScriptDtl_SourceScriptHdr" FromRole="SourceScriptDtl" ToRole="SourceScriptHdr" />
+  </EntityType>
+  <Association Name="FK_SourceScriptDtl_Client">
+    <End Type="WorkOrderLogModel.Client" Role="Client" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.SourceScriptDtl" Role="SourceScriptDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientCode" />
+      </Principal>
+      <Dependent Role="SourceScriptDtl">
+        <PropertyRef Name="ClientCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SourceScriptDtl_SourceScriptHdr">
+    <End Type="WorkOrderLogModel.SourceScriptHdr" Role="SourceScriptHdr" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.SourceScriptDtl" Role="SourceScriptDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SourceScriptHdr">
+        <PropertyRef Name="SourceScriptHdrID" />
+      </Principal>
+      <Dependent Role="SourceScriptDtl">
+        <PropertyRef Name="SourceScriptHdrID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

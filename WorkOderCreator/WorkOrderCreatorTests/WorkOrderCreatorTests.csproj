@@ -58,6 +58,7 @@
     <Compile Include="BusinessObjects\BO_ActivityTests.cs" />
     <Compile Include="BusinessObjects\BO_ActivityTypeTests.cs" />
     <Compile Include="BusinessObjects\BO_ClientTests.cs" />
+    <Compile Include="BusinessObjects\BO_SourceScriptHdrTests.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderDetailTests.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderHeaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
