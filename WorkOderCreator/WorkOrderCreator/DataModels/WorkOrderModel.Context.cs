@@ -32,5 +32,6 @@ namespace WorkOrderCreator.DataModels
         public DbSet<ActivityType> ActivityTypes { get; set; }
         public DbSet<SourceScriptHdr> SourceScriptHdrs { get; set; }
         public DbSet<SourceScriptDtl> SourceScriptDtls { get; set; }
+        public DbSet<WorkOrderDtlScript> WorkOrderDtlScripts { get; set; }
     }
 }

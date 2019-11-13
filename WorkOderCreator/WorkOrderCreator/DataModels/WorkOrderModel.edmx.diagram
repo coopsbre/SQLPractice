@@ -19,6 +19,8 @@
         <EntityTypeShape EntityType="WorkOrderLogModel.SourceScriptDtl" Width="1.5" PointX="5.25" PointY="8.75" />
         <AssociationConnector Association="WorkOrderLogModel.FK_SourceScriptDtl_Client" />
         <AssociationConnector Association="WorkOrderLogModel.FK_SourceScriptDtl_SourceScriptHdr" />
+        <EntityTypeShape EntityType="WorkOrderLogModel.WorkOrderDtlScript" Width="1.5" PointX="7.5" PointY="5.75" />
+        <AssociationConnector Association="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

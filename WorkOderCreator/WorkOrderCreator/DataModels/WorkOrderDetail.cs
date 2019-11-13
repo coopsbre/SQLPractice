@@ -14,6 +14,11 @@ namespace WorkOrderCreator.DataModels
     
     public partial class WorkOrderDetail
     {
+        public WorkOrderDetail()
+        {
+            this.WorkOrderDtlScripts = new HashSet<WorkOrderDtlScript>();
+        }
+    
         public int WODtlId { get; set; }
         public int WOHdrID { get; set; }
         public int ItemNumber { get; set; }
@@ -21,5 +26,6 @@ namespace WorkOrderCreator.DataModels
     
         public virtual Activity Activity { get; set; }
         public virtual WorkOrderHeader WorkOrderHeader { get; set; }
+        public virtual ICollection<WorkOrderDtlScript> WorkOrderDtlScripts { get; set; }
     }
 }

@@ -55,6 +55,14 @@
           <Property Name="ItemNumber" Type="int" Nullable="false" />
           <Property Name="ActivityID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="WorkOrderDtlScripts">
+          <Key>
+            <PropertyRef Name="WOScriptDtlID" />
+          </Key>
+          <Property Name="WOScriptDtlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WODtlID" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="WorkOrderHeader">
           <Key>
             <PropertyRef Name="WOHdrID" />
@@ -139,6 +147,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkOrderDtlScripts_WorkOrderDetail">
+          <End Role="WorkOrderDetail" Type="Self.WorkOrderDetail" Multiplicity="1" />
+          <End Role="WorkOrderDtlScripts" Type="Self.WorkOrderDtlScripts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderDetail">
+              <PropertyRef Name="WODtlId" />
+            </Principal>
+            <Dependent Role="WorkOrderDtlScripts">
+              <PropertyRef Name="WODtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkOrderHeader_Client">
           <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
           <End Role="WorkOrderHeader" Type="Self.WorkOrderHeader" Multiplicity="*" />
@@ -158,6 +178,7 @@
           <EntitySet Name="SourceScriptDtl" EntityType="Self.SourceScriptDtl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SourceScriptHdr" EntityType="Self.SourceScriptHdr" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderDetail" EntityType="Self.WorkOrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkOrderDtlScripts" EntityType="Self.WorkOrderDtlScripts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkOrderHeader" EntityType="Self.WorkOrderHeader" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Activity_ActivityType" Association="Self.FK_Activity_ActivityType">
             <End Role="ActivityType" EntitySet="ActivityType" />
@@ -182,6 +203,10 @@
           <AssociationSet Name="FK_WorkOrderDetail_WorkOrderHeader" Association="Self.FK_WorkOrderDetail_WorkOrderHeader">
             <End Role="WorkOrderHeader" EntitySet="WorkOrderHeader" />
             <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrderDtlScripts_WorkOrderDetail" Association="Self.FK_WorkOrderDtlScripts_WorkOrderDetail">
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetail" />
+            <End Role="WorkOrderDtlScripts" EntitySet="WorkOrderDtlScripts" />
           </AssociationSet>
           <AssociationSet Name="FK_WorkOrderHeader_Client" Association="Self.FK_WorkOrderHeader_Client">
             <End Role="Client" EntitySet="Client" />
@@ -238,6 +263,11 @@
             <End Role="SourceScriptHdr" EntitySet="SourceScriptHdrs" />
             <End Role="SourceScriptDtl" EntitySet="SourceScriptDtls" />
           </AssociationSet>
+          <EntitySet Name="WorkOrderDtlScripts" EntityType="WorkOrderLogModel.WorkOrderDtlScript" />
+          <AssociationSet Name="FK_WorkOrderDtlScripts_WorkOrderDetail" Association="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail">
+            <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+            <End Role="WorkOrderDtlScript" EntitySet="WorkOrderDtlScripts" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="WorkOrderHeader">
           <Key>
@@ -285,6 +315,7 @@
           <Property Name="ActivityID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Activity" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="WorkOrderDetail" ToRole="Activity" />
           <NavigationProperty Name="WorkOrderHeader" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
+          <NavigationProperty Name="WorkOrderDtlScripts" Relationship="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail" FromRole="WorkOrderDetail" ToRole="WorkOrderDtlScript" />
         </EntityType>
         <Association Name="FK_WorkOrderDetail_Activity">
           <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="1" />
@@ -389,6 +420,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WorkOrderDtlScript">
+          <Key>
+            <PropertyRef Name="WOScriptDtlID" />
+          </Key>
+          <Property Name="WOScriptDtlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WODtlID" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkOrderDetail" Relationship="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail" FromRole="WorkOrderDtlScript" ToRole="WorkOrderDetail" />
+        </EntityType>
+        <Association Name="FK_WorkOrderDtlScripts_WorkOrderDetail">
+          <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="1" />
+          <End Type="WorkOrderLogModel.WorkOrderDtlScript" Role="WorkOrderDtlScript" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderDetail">
+              <PropertyRef Name="WODtlId" />
+            </Principal>
+            <Dependent Role="WorkOrderDtlScript">
+              <PropertyRef Name="WODtlID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -461,6 +513,15 @@
                 <ScalarProperty Name="SourceFile" ColumnName="SourceFile" />
                 <ScalarProperty Name="SourceScriptHdrID" ColumnName="SourceScriptHdrID" />
                 <ScalarProperty Name="SourceScriptDtlID" ColumnName="SourceScriptDtlID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkOrderDtlScripts">
+            <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderDtlScript">
+              <MappingFragment StoreEntitySet="WorkOrderDtlScripts">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="WODtlID" ColumnName="WODtlID" />
+                <ScalarProperty Name="WOScriptDtlID" ColumnName="WOScriptDtlID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

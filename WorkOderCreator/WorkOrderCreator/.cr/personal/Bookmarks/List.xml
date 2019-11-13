@@ -2,7 +2,7 @@
 <Root Type="DevExpress.CodeRush.Foundation.Markers.SolutionBookmarksContainer">
   <Options Language="Neutral">
     <Items>
-      <Item Id="{ae5c885f-d8b7-4792-b424-0077da5c9c01}">
+      <Item Id="{05559de1-ebef-4d16-bac5-7e5b94d0117a}">
         <Id>1</Id>
         <File>WorkOrderCreator\BusinessObjects\BO_ActivityType.cs</File>
         <Line>139</Line>

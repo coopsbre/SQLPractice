@@ -46,6 +46,11 @@
       <End Role="SourceScriptHdr" EntitySet="SourceScriptHdrs" />
       <End Role="SourceScriptDtl" EntitySet="SourceScriptDtls" />
     </AssociationSet>
+    <EntitySet Name="WorkOrderDtlScripts" EntityType="WorkOrderLogModel.WorkOrderDtlScript" />
+    <AssociationSet Name="FK_WorkOrderDtlScripts_WorkOrderDetail" Association="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail">
+      <End Role="WorkOrderDetail" EntitySet="WorkOrderDetails" />
+      <End Role="WorkOrderDtlScript" EntitySet="WorkOrderDtlScripts" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="WorkOrderHeader">
     <Key>
@@ -93,6 +98,7 @@
     <Property Name="ActivityID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Activity" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_Activity" FromRole="WorkOrderDetail" ToRole="Activity" />
     <NavigationProperty Name="WorkOrderHeader" Relationship="WorkOrderLogModel.FK_WorkOrderDetail_WorkOrderHeader" FromRole="WorkOrderDetail" ToRole="WorkOrderHeader" />
+    <NavigationProperty Name="WorkOrderDtlScripts" Relationship="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail" FromRole="WorkOrderDetail" ToRole="WorkOrderDtlScript" />
   </EntityType>
   <Association Name="FK_WorkOrderDetail_Activity">
     <End Type="WorkOrderLogModel.Activity" Role="Activity" Multiplicity="1" />
@@ -194,6 +200,27 @@
       </Principal>
       <Dependent Role="SourceScriptDtl">
         <PropertyRef Name="SourceScriptHdrID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="WorkOrderDtlScript">
+    <Key>
+      <PropertyRef Name="WOScriptDtlID" />
+    </Key>
+    <Property Name="WOScriptDtlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WODtlID" Type="Int32" Nullable="false" />
+    <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="WorkOrderDetail" Relationship="WorkOrderLogModel.FK_WorkOrderDtlScripts_WorkOrderDetail" FromRole="WorkOrderDtlScript" ToRole="WorkOrderDetail" />
+  </EntityType>
+  <Association Name="FK_WorkOrderDtlScripts_WorkOrderDetail">
+    <End Type="WorkOrderLogModel.WorkOrderDetail" Role="WorkOrderDetail" Multiplicity="1" />
+    <End Type="WorkOrderLogModel.WorkOrderDtlScript" Role="WorkOrderDtlScript" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WorkOrderDetail">
+        <PropertyRef Name="WODtlId" />
+      </Principal>
+      <Dependent Role="WorkOrderDtlScript">
+        <PropertyRef Name="WODtlID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -130,6 +130,9 @@ namespace WorkOrderCreator.BusinessObjects
                     int activityTypeID = 2; 
 
                     context.WorkOrderDetails.Add(workOrderDetail);
+
+                    context.SaveChanges();
+
                     //Once we have created a work order detail need to look for the  
                     //Activity using the activity Id, and then get the activityTypeId
                     //Go to the sourcescripthdr table and get the sourcescripthdrid 
@@ -169,13 +172,22 @@ namespace WorkOrderCreator.BusinessObjects
                                 File.Copy(sourceFileFullPath, destFileFullPath);
 
                                 //Create WorkOrderDetailScripts foreach script created.
+                                BO_WorkOrderDtlScripts bo_WorkOrderDtlScripts = new BO_WorkOrderDtlScripts();
+                                bo_WorkOrderDtlScripts.Create(workOrderDetail.WODtlId, destFile);
 
+                                //Open the file and amend the text. 
+                                //1) Replace SourceClientCode with DestClientCode.
+                                //2) Replace ScriptID with Work Header Number.
+                                //3) For particular key words need to add _<ClientCode>.
+                                //4) 
 
                             }
+
+                            context.SaveChanges();
                         }
                     }
 
-                    context.SaveChanges();
+                    
                     DVR.IsValid = true;
                     DVR.ReturnText = "Work Order Detail #" + workOrderID.ToString() + " Added to the Database.";
                     DVR.ReturnType = workOrderDetail;

@@ -70,5 +70,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="WorkOrderDtlScripts">
+      <EntityTypeMapping TypeName="WorkOrderLogModel.WorkOrderDtlScript">
+        <MappingFragment StoreEntitySet="WorkOrderDtlScripts">
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="WODtlID" ColumnName="WODtlID" />
+          <ScalarProperty Name="WOScriptDtlID" ColumnName="WOScriptDtlID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

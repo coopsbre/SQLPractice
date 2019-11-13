@@ -33,7 +33,7 @@ namespace WorkOrderCreator.BusinessObjects.Tests
             string expected = "1 Work Order Details Found.";
             string actual = "";
 
-            dvr = bo_WorkOrderDetail.Create(1,2,2);
+            dvr = bo_WorkOrderDetail.Create(1,2,3);
             actual = dvr.ReturnText;
 
             Assert.AreEqual(expected, actual);

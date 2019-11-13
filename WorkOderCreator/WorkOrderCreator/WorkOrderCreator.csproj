@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2, Version=14.1.0.36, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -57,6 +58,7 @@
     <Compile Include="BusinessObjects\BO_Client.cs" />
     <Compile Include="BusinessObjects\BO_SourceScriptHdr.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderDetail.cs" />
+    <Compile Include="BusinessObjects\BO_WorkOrderDtlScripts.cs" />
     <Compile Include="BusinessObjects\BO_WorkOrderHeader.cs" />
     <Compile Include="BusinessObjects\_BO.cs" />
     <Compile Include="DataModels\Activity.cs">
@@ -75,6 +77,9 @@
       <DependentUpon>WorkOrderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModels\WorkOrderDetail.cs">
+      <DependentUpon>WorkOrderModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\WorkOrderDtlScript.cs">
       <DependentUpon>WorkOrderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DataModels\WorkOrderHeader.cs">
