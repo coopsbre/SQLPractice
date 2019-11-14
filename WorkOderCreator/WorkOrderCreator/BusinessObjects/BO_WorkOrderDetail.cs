@@ -156,6 +156,8 @@ namespace WorkOrderCreator.BusinessObjects
                             string destClientCode = string.Empty;
                             string destFileFullPath = string.Empty;
                             string destFolder = string.Empty;
+                            string sourceFileContents = string.Empty;
+                            string destFileContents = string.Empty; 
 
                             foreach (SourceScriptDtl sourceScriptDtl in sourceScriptDtls)
                             {
@@ -169,17 +171,18 @@ namespace WorkOrderCreator.BusinessObjects
                                 destFolder = workOrderHeader.Client.ClientFolder;
                                 destFileFullPath = Path.Combine(destFolder, destFile);
 
-                                File.Copy(sourceFileFullPath, destFileFullPath);
+                                // Logic change instead of copying, replace text required 
+                                sourceFileContents = File.ReadAllText(sourceFileFullPath);
+                                destFileContents = sourceFileContents.Replace(sourceClientCode, destClientCode);
+                                destFileContents = destFileContents.Replace("0", workOrderHeader.WOHdrID.ToString());
+
+                                File.WriteAllText(destFileFullPath, destFileContents);
 
                                 //Create WorkOrderDetailScripts foreach script created.
                                 BO_WorkOrderDtlScripts bo_WorkOrderDtlScripts = new BO_WorkOrderDtlScripts();
                                 bo_WorkOrderDtlScripts.Create(workOrderDetail.WODtlId, destFile);
 
-                                //Open the file and amend the text. 
-                                //1) Replace SourceClientCode with DestClientCode.
-                                //2) Replace ScriptID with Work Header Number.
-                                //3) For particular key words need to add _<ClientCode>.
-                                //4) 
+                                
 
                             }
 
